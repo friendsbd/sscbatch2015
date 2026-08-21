@@ -24,16 +24,20 @@
         <li class="nav-item"><a class="nav-link active" href="friends.html">বন্ধুরা</a></li>
         <li class="nav-item"><a class="nav-link" href="gallery.html">স্মৃতির গ্যালারি</a></li>
         <li class="nav-item"><a class="nav-link" href="events.html">ইভেন্ট</a></li>
+        <li class="nav-item"><a class="nav-link" href="tools.html">টুলস</a></li>
       </ul>
     </div>
   </div>
 </nav>
+
+<div id="birthdayBanner"></div>
 
 <header class="hero py-5">
   <div class="container">
     <div class="eyebrow"><i class="bi bi-people"></i> রেজিস্টার বুক</div>
     <h1 style="font-size:clamp(2rem,4.5vw,3.2rem)">সবার প্রোফাইল, <em>এক পাতায়</em></h1>
     <p class="lead">নাম, এলাকা বা পেশা দিয়ে খুঁজো — আর সরাসরি SMS, WhatsApp বা ফেসবুকে মেসেজ পাঠাও।</p>
+    <a href="#register" class="btn-ink"><i class="bi bi-person-plus me-1"></i> নিজেকে যোগ করো</a>
   </div>
 </header>
 
@@ -64,13 +68,44 @@
   </div>
 </section>
 
+<!-- REGISTRATION -->
+<section id="register">
+  <div class="container">
+    <div class="sec-label">নিজের তথ্য নিজেই যোগ করো</div>
+    <h2 class="sec-title">রেজিস্ট্রেশন ফর্ম</h2>
+    <div class="row g-4">
+      <div class="col-lg-7">
+        <div id="registerForm"><div class="state-msg"><span class="spin"></span> ফর্ম লোড হচ্ছে...</div></div>
+      </div>
+      <div class="col-lg-5">
+        <div class="split-card">
+          <h4 class="h6 mb-3"><i class="bi bi-info-circle me-1"></i> কীভাবে কাজ করে</h4>
+          <ol class="small text-secondary ps-3 mb-0" style="line-height:1.9;">
+            <li>ফর্মটা পূরণ করে সাবমিট করো — নাম, রোল, ছবির ফাইলের নাম (GitHub-এ আপলোড করা থাকলে), যোগাযোগের তথ্য ইত্যাদি।</li>
+            <li>তোমার তথ্য সরাসরি ব্যাচের Google Sheet-এ জমা হয়ে যাবে।</li>
+            <li>অ্যাডমিন রিভিউ করে Sheet-এ তোমার রো-র <b>Status</b> কলামে <span class="mono">1</span> বসিয়ে দিলেই তোমার প্রোফাইল কার্ড এই পাতায় দেখা যাবে।</li>
+            <li>রিভিউ হতে একটু সময় লাগতে পারে — অ্যাপ্রুভ না হওয়া পর্যন্ত প্রোফাইল পাবলিকলি দেখাবে না।</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer class="mt-5">
-  <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
-    <div>© <span id="year"></span> SSC ব্যাচ ২০১৫</div>
-    <div class="d-flex gap-3">
-      <a href="index.html">হোম</a>
-      <a href="gallery.html">গ্যালারি</a>
-      <a href="events.html">ইভেন্ট</a>
+  <div class="container">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+      <div>© <span id="year"></span> SSC ব্যাচ ২০১৫</div>
+      <div class="d-flex gap-3">
+        <a href="index.html">হোম</a>
+        <a href="gallery.html">গ্যালারি</a>
+        <a href="events.html">ইভেন্ট</a>
+        <a href="tools.html">টুলস</a>
+      </div>
+    </div>
+    <div class="footer-credit">
+      এই ওয়েবসাইট ডিজাইন ও ডেভেলপ করেছেন SSC ব্যাচ ২০১৫-এর <strong style="color:var(--paper)">Engr. Prothes</strong> —
+      <a href="https://prothesbarai.github.io" target="_blank" rel="noopener">prothesbarai.github.io</a>
     </div>
   </div>
 </footer>
@@ -80,5 +115,17 @@
 <script src="assets/js/csv.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/friends.js"></script>
+<script src="assets/js/birthday.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const formWrap = document.getElementById("registerForm");
+    if (!formWrap) return;
+    if (CONFIG.FRIENDS_REGISTER_FORM_EMBED_URL && !CONFIG.FRIENDS_REGISTER_FORM_EMBED_URL.startsWith("PASTE_")){
+      formWrap.innerHTML = `<iframe src="${CONFIG.FRIENDS_REGISTER_FORM_EMBED_URL}" width="100%" height="640" style="border:1px solid var(--line);border-radius:8px;" loading="lazy">লোড হচ্ছে...</iframe>`;
+    } else {
+      formWrap.innerHTML = `<div class="state-msg">রেজিস্ট্রেশন ফর্ম এখনো যোগ করা হয়নি — README.md দেখো কীভাবে Google Form বানিয়ে config.js এ FRIENDS_REGISTER_FORM_EMBED_URL বসাতে হয়।</div>`;
+    }
+  });
+</script>
 </body>
 </html>

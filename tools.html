@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>টুলস — SSC ব্যাচ ২০১৫</title>
+<meta name="description" content="নোটিশ বোর্ড, জন্মদিন রিমাইন্ডার, ফান্ড ট্র্যাকার, মেসেজ ওয়াল, বিল-ভাগাভাগি ক্যালকুলেটর, ফান-জোন — ব্যাচের সবার জন্য এক জায়গায়।">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg reg-nav sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="index.html"><span class="stamp mono">'15</span> SSC ব্যাচ ২০১৫</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" style="border-color:rgba(243,236,218,.4)">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">হোম</a></li>
+        <li class="nav-item"><a class="nav-link" href="friends.html">বন্ধুরা</a></li>
+        <li class="nav-item"><a class="nav-link" href="gallery.html">স্মৃতির গ্যালারি</a></li>
+        <li class="nav-item"><a class="nav-link" href="events.html">ইভেন্ট</a></li>
+        <li class="nav-item"><a class="nav-link active" href="tools.html">টুলস</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div id="birthdayBanner"></div>
+
+<header class="hero py-5">
+  <div class="container">
+    <div class="eyebrow"><i class="bi bi-toolbox"></i> ব্যাচ টুলবক্স</div>
+    <h1 style="font-size:clamp(2rem,4.5vw,3.2rem)">শুধু দেখা না, <em>একসাথে ব্যবহার</em> করার মতো কিছু</h1>
+    <p class="lead">নোটিশ দাও, জন্মদিন মনে রাখো, ফান্ডের হিসাব রাখো, একে অপরকে মেসেজ লেখো, একটু মজাও করো — সব একই জায়গায়।</p>
+  </div>
+</header>
+
+<section class="pt-4">
+  <div class="container">
+    <div class="tool-nav-pill">
+      <a href="#notices"><i class="bi bi-megaphone me-1"></i> নোটিশ বোর্ড</a>
+      <a href="#birthdays"><i class="bi bi-balloon me-1"></i> জন্মদিন</a>
+      <a href="#fund"><i class="bi bi-piggy-bank me-1"></i> ফান্ড ট্র্যাকার</a>
+      <a href="#split"><i class="bi bi-calculator me-1"></i> বিল ক্যালকুলেটর</a>
+      <a href="#guestbook"><i class="bi bi-chat-square-heart me-1"></i> মেসেজ ওয়াল</a>
+      <a href="#funzone"><i class="bi bi-controller me-1"></i> ফান-জোন</a>
+      <a href="#community"><i class="bi bi-people me-1"></i> কমিউনিটি</a>
+    </div>
+  </div>
+</section>
+
+<!-- NOTICE BOARD -->
+<section id="notices">
+  <div class="container">
+    <div class="sec-label">০১ · সবার জন্য ঘোষণা</div>
+    <h2 class="sec-title">নোটিশ বোর্ড</h2>
+    <div id="noticeBoard"><div class="state-msg"><span class="spin"></span> লোড হচ্ছে...</div></div>
+  </div>
+</section>
+
+<!-- BIRTHDAYS -->
+<section id="birthdays">
+  <div class="container">
+    <div class="sec-label">০২ · কারো জন্মদিন মিস না হোক</div>
+    <h2 class="sec-title">আসছে যাদের জন্মদিন</h2>
+    <div id="birthdayList"><div class="state-msg"><span class="spin"></span> লোড হচ্ছে...</div></div>
+  </div>
+</section>
+
+<!-- FUND TRACKER -->
+<section id="fund">
+  <div class="container">
+    <div class="sec-label">০৩ · ফান্ডের হিসাব সবার চোখের সামনে</div>
+    <h2 class="sec-title">ফান্ড ট্র্যাকার</h2>
+    <p class="text-secondary mb-4" id="fundInfo" style="max-width:640px;"></p>
+    <div class="row g-4" id="fundTracker">
+      <div class="col-lg-5">
+        <div class="fund-card">
+          <div class="fund-figures">
+            <div>সংগ্রহ হয়েছে<br><b id="fundTotal">৳০</b></div>
+            <div class="text-end">টার্গেট<br><b id="fundGoal">—</b></div>
+          </div>
+          <div class="fund-progress"><div class="fund-progress-bar" id="fundBar" style="width:0%"></div></div>
+          <div class="d-flex justify-content-between mono small text-secondary">
+            <span id="fundPct">০%</span>
+            <span><span id="fundCount">০</span> জন কন্ট্রিবিউট করেছে</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <div class="fund-card">
+          <h4 class="h6 mb-3">সাম্প্রতিক কন্ট্রিবিউশন</h4>
+          <div id="fundList"><div class="state-msg"><span class="spin"></span> লোড হচ্ছে...</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BILL SPLITTER -->
+<section id="split">
+  <div class="container">
+    <div class="sec-label">০৪ · খরচ ভাগ করো ঝামেলা ছাড়াই</div>
+    <h2 class="sec-title">বিল ভাগাভাগি ক্যালকুলেটর</h2>
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="split-card">
+          <div class="mb-3">
+            <label class="form-label mono small text-secondary text-uppercase">মোট খরচ (৳)</label>
+            <input type="number" id="splitTotal" class="form-control" placeholder="যেমন: ১৫০০০">
+          </div>
+          <div class="mb-3">
+            <label class="form-label mono small text-secondary text-uppercase">কতজন</label>
+            <input type="number" id="splitPeople" class="form-control" placeholder="যেমন: ২৫">
+          </div>
+          <div class="mb-3">
+            <label class="form-label mono small text-secondary text-uppercase">অতিরিক্ত খরচ (ঐচ্ছিক — ভাড়া, সার্ভিস চার্জ ইত্যাদি)</label>
+            <input type="number" id="splitExtra" class="form-control" placeholder="যেমন: ৫০০">
+          </div>
+          <button id="splitCalcBtn" class="btn-ink w-100">হিসাব করো</button>
+          <div class="split-result" id="splitResult" style="display:none"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GUESTBOOK -->
+<section id="guestbook">
+  <div class="container">
+    <div class="sec-label">০৫ · একে অপরকে একটা লাইন লেখো</div>
+    <h2 class="sec-title">মেসেজ ওয়াল</h2>
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div id="guestbookForm"><div class="state-msg"><span class="spin"></span> ফর্ম লোড হচ্ছে...</div></div>
+      </div>
+      <div class="col-lg-6" style="max-height:560px; overflow-y:auto;">
+        <div id="guestbookList"><div class="state-msg"><span class="spin"></span> মেসেজ লোড হচ্ছে...</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FUN ZONE -->
+<section id="funzone">
+  <div class="container">
+    <div class="sec-label">০৬ · কাজের ফাঁকে একটু আড্ডা</div>
+    <h2 class="sec-title">ফান-জোন</h2>
+    <div class="row g-4">
+
+      <div class="col-lg-4">
+        <div class="split-card">
+          <h4 class="h6 mb-2"><i class="bi bi-shuffle me-1"></i> আজ কে "কুইনী"?</h4>
+          <p class="text-secondary small mb-3">এক ক্লিকে র‍্যান্ডম বন্ধুকে বেছে নাও — কে আজকে চা খাওয়াবে, কে গিফট আনবে বা যেকোনো ছোট্ট মজার দায়িত্ব ঠিক করতে।</p>
+          <button id="funPickBtn" class="btn-ink w-100"><i class="bi bi-shuffle me-1"></i> বেছে নাও</button>
+          <div class="fun-pick-result" id="funPickResult">এখনো কেউ বাছাই হয়নি</div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="split-card">
+          <h4 class="h6 mb-2"><i class="bi bi-stars me-1"></i> আজকের খেতাব</h4>
+          <p class="text-secondary small mb-3">এক ক্লিকে নিজের জন্য একটা মজার, র‍্যান্ডম "আজকের খেতাব" জেনারেট করো। বন্ধুদের গ্রুপে শেয়ার করো!</p>
+          <button id="funTitleBtn" class="btn-ink w-100"><i class="bi bi-stars me-1"></i> খেতাব বানাও</button>
+          <div class="fun-pick-result" id="funTitleResult">এখনো জেনারেট করা হয়নি</div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="split-card">
+          <h4 class="h6 mb-2"><i class="bi bi-hand-index-thumb me-1"></i> রক-পেপার-সিজার্স</h4>
+          <p class="text-secondary small mb-3">বোরিং সময় কাটছে না? কম্পিউটারের বিপক্ষে এক রাউন্ড খেলে নাও।</p>
+          <div class="rps-buttons">
+            <button class="rps-btn" data-choice="rock" title="পাথর">🪨</button>
+            <button class="rps-btn" data-choice="paper" title="কাগজ">📄</button>
+            <button class="rps-btn" data-choice="scissors" title="কাঁচি">✂️</button>
+          </div>
+          <div class="fun-pick-result" id="rpsResult">তোমার চাল বেছে নাও</div>
+          <div class="d-flex justify-content-between mono small text-secondary mt-2">
+            <span>তুমি: <span id="rpsWin">০</span></span>
+            <span>কম্পিউটার: <span id="rpsLose">০</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="split-card">
+          <h4 class="h6 mb-3"><i class="bi bi-grid-3x3 me-1"></i> টিক-ট্যাক-টো (দুইজন)</h4>
+          <p class="text-secondary small mb-3">একই ফোনে/ল্যাপটপে পাশাপাশি বসে দুইজন খেলো — একজন X, আরেকজন O।</p>
+          <div id="tttBoard" class="ttt-board"></div>
+          <div class="d-flex justify-content-between align-items-center mt-3">
+            <div class="fun-pick-result mb-0" id="tttStatus" style="flex:1;">শুরু করো — এখন X-এর পালা</div>
+            <button id="tttReset" class="btn-ink" style="white-space:nowrap;">রিসেট</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- COMMUNITY -->
+<section id="community">
+  <div class="container">
+    <div class="sec-label">০৭ · রোজকার যোগাযোগ</div>
+    <h2 class="sec-title">কমিউনিটি গ্রুপ</h2>
+    <div class="community-grid" id="communityGrid">
+      <div class="state-msg">লোড হচ্ছে...</div>
+    </div>
+  </div>
+</section>
+
+<footer class="mt-5">
+  <div class="container">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+      <div>© <span id="year"></span> SSC ব্যাচ ২০১৫</div>
+      <div class="d-flex gap-3">
+        <a href="index.html">হোম</a>
+        <a href="friends.html">বন্ধুরা</a>
+        <a href="gallery.html">গ্যালারি</a>
+        <a href="events.html">ইভেন্ট</a>
+      </div>
+    </div>
+    <div class="footer-credit">
+      এই ওয়েবসাইট ডিজাইন ও ডেভেলপ করেছেন SSC ব্যাচ ২০১৫-এর <strong style="color:var(--paper)">Engr. Prothes</strong> —
+      <a href="https://prothesbarai.github.io" target="_blank" rel="noopener">prothesbarai.github.io</a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/csv.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/friends.js"></script>
+<script src="assets/js/birthday.js"></script>
+<script src="assets/js/notices.js"></script>
+<script src="assets/js/fund.js"></script>
+<script src="assets/js/guestbook.js"></script>
+<script src="assets/js/billsplit.js"></script>
+<script src="assets/js/funzone.js"></script>
+<script>
+  function communityBtn(href, icon, cls, title, sub){
+    if (!href) return "";
+    return `<a class="community-btn ${cls}" href="${href}" target="_blank" rel="noopener">
+      <i class="bi ${icon}"></i>
+      <span><span class="cb-title">${title}</span><span class="cb-sub">${sub}</span></span>
+    </a>`;
+  }
+  document.addEventListener("DOMContentLoaded", () => {
+    const grid = document.getElementById("communityGrid");
+    const btns = [
+      communityBtn(CONFIG.WHATSAPP_GROUP_URL, "bi-whatsapp", "wa", "WhatsApp গ্রুপ", "দ্রুত মেসেজ আদান-প্রদান"),
+      communityBtn(CONFIG.FACEBOOK_GROUP_URL, "bi-facebook", "fb", "Facebook গ্রুপ", "ছবি ও পোস্ট শেয়ার"),
+      communityBtn(CONFIG.TELEGRAM_GROUP_URL, "bi-telegram", "tg", "Telegram গ্রুপ", "ফাইল ও অ্যানাউন্সমেন্ট"),
+    ].filter(Boolean);
+    grid.innerHTML = btns.length ? btns.join("") :
+      `<div class="state-msg">এখনো কোনো গ্রুপ লিংক যোগ করা হয়নি — config.js এ WHATSAPP_GROUP_URL / FACEBOOK_GROUP_URL বসাও।</div>`;
+  });
+</script>
+</body>
+</html>

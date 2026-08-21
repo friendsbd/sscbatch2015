@@ -85,7 +85,9 @@ h1,h2,h3,h4{
 }
 .reg-nav .nav-link.active, .reg-nav .nav-link:hover{ color: var(--brass-2) !important; }
 .reg-nav .navbar-toggler{ border-color: rgba(243,236,218,0.4); }
-
+.reg-nav .navbar-toggler-icon{
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(243,236,218,1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
 /* ---------- Hero: cover page of the register ---------- */
 .hero{
   position: relative;
@@ -439,6 +441,14 @@ footer{
   font-size: .82rem;
 }
 footer a{ color: var(--brass-2); }
+.footer-credit{
+  border-top: 1px dashed rgba(243,236,218,0.2);
+  margin-top: 1.4rem;
+  padding-top: 1.1rem;
+  font-size: .76rem;
+  color: rgba(243,236,218,0.55);
+}
+.footer-credit a{ color: var(--brass-2); font-weight:600; }
 
 /* ---------- Loading / empty states ---------- */
 .state-msg{
@@ -465,3 +475,213 @@ footer a{ color: var(--brass-2); }
   border-radius: 999px;
   padding: .2rem .6rem;
 }
+
+/* =========================================================
+   TOOLS PAGE — Notice board, Fund tracker, Guestbook,
+   Bill splitter, Community links, Birthday banner
+   ========================================================= */
+
+.tool-nav-pill{
+  display:flex; flex-wrap:wrap; gap:.6rem;
+  margin-bottom: 2.5rem;
+}
+.tool-nav-pill a{
+  font-family: var(--font-mono);
+  font-size: .76rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  border: 1px solid var(--line);
+  background: var(--white);
+  color: var(--ink);
+  padding: .45rem .95rem;
+  border-radius: 999px;
+  transition: all .15s ease;
+}
+.tool-nav-pill a:hover{ background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+/* --- Birthday banner (sitewide) --- */
+#birthdayBanner{
+  display:none;
+  background: var(--red);
+  color: var(--white);
+  text-align:center;
+  padding: .6rem 1rem;
+  font-family: var(--font-mono);
+  font-size: .82rem;
+  letter-spacing: .03em;
+}
+#birthdayBanner strong{ font-family: var(--font-body); }
+#birthdayBanner button{
+  background:none; border:none; color:rgba(255,255,255,0.8);
+  margin-left: 1rem; font-size:.9rem; cursor:pointer;
+}
+
+/* --- Notice board --- */
+.notice-item{
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 1.1rem 1.3rem;
+  margin-bottom: 1rem;
+  display:flex;
+  gap: 1rem;
+  align-items:flex-start;
+}
+.notice-item.pinned{ border-left: 4px solid var(--brass); }
+.notice-item .pin-icon{ color: var(--brass); font-size: 1.1rem; margin-top:.15rem; }
+.notice-item .date{
+  font-family: var(--font-mono); font-size:.7rem; color: var(--slate);
+  text-transform:uppercase; letter-spacing:.05em; margin-bottom:.3rem;
+}
+.notice-item h4{ font-size: 1.05rem; margin-bottom:.3rem; }
+.notice-item p{ color: var(--slate); margin:0; font-size:.92rem; }
+
+/* --- Birthday list --- */
+.bday-item{
+  display:flex; align-items:center; gap: .9rem;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: .5rem .9rem .5rem .5rem;
+  margin-bottom: .7rem;
+}
+.bday-item img{
+  width: 42px; height:42px; border-radius:50%; object-fit:cover;
+  border: 1px solid var(--line);
+}
+.bday-item .nm{ font-weight:600; font-size:.92rem; }
+.bday-item .dt{ font-family: var(--font-mono); font-size:.72rem; color: var(--slate); }
+.bday-item.today{ border-color: var(--red); background: #fdf3f1; }
+.bday-item.today .dt{ color: var(--red); }
+
+/* --- Fund tracker --- */
+.fund-card{
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 1.8rem;
+}
+.fund-progress{
+  height: 14px;
+  background: var(--paper-2);
+  border-radius: 999px;
+  overflow:hidden;
+  border: 1px solid var(--line);
+  margin: 1rem 0 .5rem;
+}
+.fund-progress-bar{
+  height:100%;
+  background: linear-gradient(90deg, var(--brass), var(--brass-2));
+  border-radius: 999px;
+  transition: width .6s ease;
+}
+.fund-figures{ display:flex; justify-content:space-between; font-family: var(--font-mono); font-size:.8rem; color: var(--slate); }
+.fund-figures b{ color: var(--ink); font-size: 1.1rem; font-family: var(--font-display); }
+.contrib-row{
+  display:flex; justify-content:space-between; align-items:center;
+  padding: .55rem 0;
+  border-bottom: 1px dashed var(--line);
+  font-size: .9rem;
+}
+.contrib-row:last-child{ border-bottom:none; }
+.contrib-row .amt{ font-family: var(--font-mono); color: var(--brass); font-weight:600; }
+
+/* --- Guestbook / message wall --- */
+.wall-msg{
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 1rem 1.2rem;
+  margin-bottom: .9rem;
+  position:relative;
+}
+.wall-msg .who{ font-weight:600; font-size:.9rem; }
+.wall-msg .when{ font-family: var(--font-mono); font-size:.68rem; color: var(--slate); }
+.wall-msg p{ margin: .4rem 0 0; color: var(--ink); font-size: .92rem; }
+
+/* --- Bill splitter tool --- */
+.split-card{
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 1.8rem;
+}
+.split-result{
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 6px;
+  padding: 1.2rem 1.4rem;
+  margin-top: 1.2rem;
+  text-align:center;
+}
+.split-result b{ font-family: var(--font-display); font-size: 2rem; display:block; color: var(--brass-2); }
+.split-result span{ font-family: var(--font-mono); font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; opacity:.8; }
+
+/* --- Community buttons --- */
+.community-grid{ display:flex; gap: 1rem; flex-wrap:wrap; }
+.community-btn{
+  flex: 1 1 200px;
+  display:flex; align-items:center; gap: .9rem;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 1.1rem 1.3rem;
+  transition: all .15s ease;
+  color: var(--ink);
+}
+.community-btn:hover{ transform: translateY(-3px); box-shadow: 0 10px 20px -14px rgba(22,34,61,0.4); }
+.community-btn i{ font-size: 1.6rem; }
+.community-btn .cb-title{ font-weight:600; font-size:.95rem; display:block; }
+.community-btn .cb-sub{ font-family: var(--font-mono); font-size:.72rem; color: var(--slate); }
+.community-btn.wa i{ color:#25D366; }
+.community-btn.fb i{ color:#1877F2; }
+.community-btn.tg i{ color:#26A5E4; }
+
+/* --- Fun zone --- */
+.fun-pick-result{
+  font-family: var(--font-mono);
+  font-size: .85rem;
+  color: var(--slate);
+  text-align: center;
+  background: var(--paper-2);
+  border: 1px dashed var(--line);
+  border-radius: 6px;
+  padding: .9rem .8rem;
+  margin-top: 1rem;
+}
+.fun-pick-result b{ font-family: var(--font-body); color: var(--ink); }
+
+.rps-buttons{ display:flex; gap:.7rem; }
+.rps-btn{
+  flex: 1;
+  font-size: 1.8rem;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: .7rem 0;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.rps-btn:hover{ background: var(--ink); transform: translateY(-2px); }
+
+.ttt-board{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .5rem;
+  max-width: 260px;
+  margin: 0 auto;
+}
+.ttt-cell{
+  aspect-ratio: 1 / 1;
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  font-weight: 700;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--brass-2);
+  cursor: pointer;
+  transition: background .15s ease;
+}
+.ttt-cell:not(:disabled):hover{ background: var(--paper-2); }
+.ttt-cell:disabled{ cursor: default; }

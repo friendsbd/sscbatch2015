@@ -26,10 +26,13 @@
         <li class="nav-item"><a class="nav-link" href="friends.html">বন্ধুরা</a></li>
         <li class="nav-item"><a class="nav-link" href="gallery.html">স্মৃতির গ্যালারি</a></li>
         <li class="nav-item"><a class="nav-link" href="events.html">ইভেন্ট</a></li>
+        <li class="nav-item"><a class="nav-link" href="tools.html">টুলস</a></li>
       </ul>
     </div>
   </div>
 </nav>
+
+<div id="birthdayBanner"></div>
 
 <header class="hero">
   <div class="container">
@@ -92,12 +95,19 @@
 </section>
 
 <footer>
-  <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
-    <div>© <span id="year"></span> SSC ব্যাচ ২০১৫ · সবার জন্য, সবার হাতে বানানো</div>
-    <div class="d-flex gap-3">
-      <a href="friends.html">বন্ধুরা</a>
-      <a href="gallery.html">গ্যালারি</a>
-      <a href="events.html">ইভেন্ট</a>
+  <div class="container">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+      <div>© <span id="year"></span> SSC ব্যাচ ২০১৫ · সবার জন্য, সবার হাতে বানানো</div>
+      <div class="d-flex gap-3">
+        <a href="friends.html">বন্ধুরা</a>
+        <a href="gallery.html">গ্যালারি</a>
+        <a href="events.html">ইভেন্ট</a>
+        <a href="tools.html">টুলস</a>
+      </div>
+    </div>
+    <div class="footer-credit">
+      এই ওয়েবসাইট ডিজাইন ও ডেভেলপ করেছেন SSC ব্যাচ ২০১৫-এর <strong style="color:var(--paper)">Engr. Prothes</strong> —
+      <a href="https://prothesbarai.github.io" target="_blank" rel="noopener">prothesbarai.github.io</a>
     </div>
   </div>
 </footer>
@@ -106,6 +116,8 @@
 <script src="assets/js/config.js"></script>
 <script src="assets/js/csv.js"></script>
 <script src="assets/js/main.js"></script>
+<script src="assets/js/friends.js"></script>
+<script src="assets/js/birthday.js"></script>
 <script>
 async function loadHomeStats(){
   try{

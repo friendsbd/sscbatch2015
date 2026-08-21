@@ -2,11 +2,21 @@
    FRIENDS PAGE
    Expected Google Sheet columns (header row, নাম case-insensitive):
    Name | Roll | Photo | Position | Location | Phone | Email |
-   Facebook | Instagram | Whatsapp | Group
+   Facebook | Instagram | Whatsapp | Group | Status
    ( Whatsapp খালি থাকলে Phone নাম্বার দিয়ে auto wa.me লিংক বানানো হবে )
+
+   Status কলাম = অ্যাপ্রুভাল গেট। friends.html-এর রেজিস্ট্রেশন ফর্ম দিয়ে কেউ
+   নতুন এন্ট্রি জমা দিলে সেটা এই sheet-এই যোগ হয়, কিন্তু Status খালি থাকা অবস্থায়
+   সাইটে দেখাবে না। যে রো-তে Status কলামে "1" বসাবে (ম্যানুয়ালি), শুধু সেই বন্ধুর
+   প্রোফাইলই এখানে render হবে।
    ========================================================= */
 
 let ALL_FRIENDS = [];
+
+function isApprovedStatus(v){
+  const s = (v || "").toString().trim().toLowerCase();
+  return s === "1" || s === "yes" || s === "true" || s === "approved";
+}
 
 function waLink(phone){
   if(!phone) return null;
@@ -87,7 +97,8 @@ function populateGroupFilter(list){
 async function loadFriendsData(){
   if (ALL_FRIENDS.length) return ALL_FRIENDS;
   const rows = await fetchSheet(FRIENDS_CSV_URL);
-  ALL_FRIENDS = rows.filter(r => r.name);
+  // শুধু নাম আছে আর Status কলামে অ্যাপ্রুভ (মূলত "1") করা রো-গুলোই দেখাবে
+  ALL_FRIENDS = rows.filter(r => r.name && isApprovedStatus(r.status));
   return ALL_FRIENDS;
 }
 
