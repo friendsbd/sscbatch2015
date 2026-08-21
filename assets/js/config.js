@@ -13,9 +13,10 @@ const CONFIG = {
   FRIENDS_SHEET_ID: "PASTE_FRIENDS_SHEET_ID_HERE",
   FRIENDS_SHEET_GID: "0",
 
-  // FRIENDS_REGISTER_FORM_EMBED_URL: friends.html-এর রেজিস্ট্রেশন ফর্ম (Google Form embed লিংক)।
-  // এই ফর্মের Response destination সেট করবে উপরের FRIENDS_SHEET_ID-এর sheet-টাকেই — README.md-এ ধাপে ধাপে লেখা আছে।
-  FRIENDS_REGISTER_FORM_EMBED_URL: "PASTE_FRIENDS_REGISTER_FORM_EMBED_URL_HERE",
+  // FRIENDS_REGISTER_FORM_EMBED_URL: (ঐচ্ছিক / আর ব্যবহার হয় না)
+  // friends.html এখন নিজস্ব HTML/Bootstrap ফর্ম ব্যবহার করে যেটা সরাসরি SUBMIT_SCRIPT_URL
+  // দিয়ে Sheet-এ লেখে (নিচে ১১ নম্বর দেখো)। এই ভ্যারিয়েবলটা রাখা হয়েছে শুধু ব্যাকওয়ার্ড-কম্প্যাটিবিলিটির জন্য।
+  FRIENDS_REGISTER_FORM_EMBED_URL: "",
 
   // ---------- 2) EVENTS GOOGLE SHEET ----------
   EVENTS_SHEET_ID: "PASTE_EVENTS_SHEET_ID_HERE",
@@ -62,10 +63,24 @@ const CONFIG = {
   WHATSAPP_GROUP_URL: "", // যেমন: https://chat.whatsapp.com/xxxxxxx
   FACEBOOK_GROUP_URL: "", // যেমন: https://facebook.com/groups/xxxxxxx
   TELEGRAM_GROUP_URL: "", // যেমন: https://t.me/xxxxxxx
+  MESSENGER_GROUP_URL: "https://m.me/j/AbYJV5D53nO_ppPN/?send_source=gc%3Acopy_invite_link_t", // ব্যাচের Messenger গ্রুপ চ্যাট লিংক
 
   // ---------- 10) সাইট ক্রেডিট ----------
-  CREDIT_NAME: "Engr. Prothes",
-  CREDIT_URL: "https://prothesbarai.github.io",
+  CREDIT_NAME: "PSBMLabs",
+  CREDIT_URL: "https://psbmlabs.github.io",
+
+  // ---------- 11) SUBMIT SCRIPT (Google Apps Script Web App) ----------
+  // friends.html-এর রেজিস্ট্রেশন ফর্ম আর গ্রুপ পোল — দুটোই এই এক URL দিয়ে
+  // সরাসরি Google Sheet-এ ডেটা লেখে। কীভাবে বানাবে সেটা google-apps-script/README.md-এ লেখা আছে।
+  SUBMIT_SCRIPT_URL: "PASTE_APPS_SCRIPT_WEB_APP_URL_HERE",
+
+  // ---------- 12) গ্রুপ পোল (tools.html) ----------
+  // প্রশ্ন আর অপশন এখানে বদলাও — যত খুশি অপশন দিতে পারো
+  POLL_QUESTION: "এবারের রিইউনিয়ন কোথায় হওয়া উচিত?",
+  POLL_OPTIONS: ["স্কুল ক্যাম্পাসে", "রিসোর্টে", "কারো বাসায়/ছাদে", "রেস্টুরেন্টে"],
+  // ভোটগুলো যে শিটে জমা হবে তার ID/GID (Apps Script এই শিটেই "PollVotes" নামের ট্যাবে লিখবে)
+  POLL_SHEET_ID: "PASTE_POLL_SHEET_ID_HERE",
+  POLL_SHEET_GID: "0",
 };
 
 
@@ -80,6 +95,24 @@ const EVENTS_CSV_URL    = sheetCsvUrl(CONFIG.EVENTS_SHEET_ID, CONFIG.EVENTS_SHEE
 const NOTICES_CSV_URL   = sheetCsvUrl(CONFIG.NOTICES_SHEET_ID, CONFIG.NOTICES_SHEET_GID);
 const FUND_CSV_URL      = sheetCsvUrl(CONFIG.FUND_SHEET_ID, CONFIG.FUND_SHEET_GID);
 const GUESTBOOK_CSV_URL = sheetCsvUrl(CONFIG.GUESTBOOK_SHEET_ID, CONFIG.GUESTBOOK_SHEET_GID);
+const POLL_CSV_URL      = sheetCsvUrl(CONFIG.POLL_SHEET_ID, CONFIG.POLL_SHEET_GID);
+
+/* ---------- Helper: ফর্ম/পোল ডেটা Apps Script দিয়ে Google Sheet-এ পাঠানো ---------- */
+// sheetName = Apps Script-এর মধ্যে কোন ট্যাবে row যোগ হবে ("Friends", "PollVotes" ইত্যাদি)
+// data = { column: value, ... } — key গুলো ওই শিটের header নামের সাথে case-insensitive মিলবে
+async function submitToSheet(sheetName, data){
+  if (!CONFIG.SUBMIT_SCRIPT_URL || CONFIG.SUBMIT_SCRIPT_URL.startsWith("PASTE_")){
+    throw new Error("SUBMIT_SCRIPT_URL সেট করা হয়নি — config.js দেখো।");
+  }
+  const body = new URLSearchParams({ sheetName, ...data });
+  // Apps Script Web App CORS প্রিফ্লাইট সাপোর্ট করে না, তাই no-cors mode ব্যবহার করা হচ্ছে —
+  // মানে রেসপন্স পড়া যাবে না, কিন্তু রিকোয়েস্টটা ঠিকভাবে শিটে পৌঁছায়।
+  await fetch(CONFIG.SUBMIT_SCRIPT_URL, {
+    method: "POST",
+    mode: "no-cors",
+    body,
+  });
+}
 
 /* ---------- Helper: resolve an image field to a real URL ---------- */
 function resolveImage(value, fallbackSeed){

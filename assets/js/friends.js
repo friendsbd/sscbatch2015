@@ -1,9 +1,10 @@
 /* =========================================================
    FRIENDS PAGE
    Expected Google Sheet columns (header row, নাম case-insensitive):
-   Name | Roll | Photo | Position | Location | Phone | Email |
-   Facebook | Instagram | Whatsapp | Group | Status
+   Name | Photo | Position | Location | Phone | Email |
+   Facebook | Instagram | Whatsapp | Group | Birthday | Status
    ( Whatsapp খালি থাকলে Phone নাম্বার দিয়ে auto wa.me লিংক বানানো হবে )
+   ( Birthday ঐচ্ছিক — ফরম্যাট YYYY-MM-DD, birthday.js এটা পড়ে জন্মদিন রিমাইন্ডার দেখায় )
 
    Status কলাম = অ্যাপ্রুভাল গেট। friends.html-এর রেজিস্ট্রেশন ফর্ম দিয়ে কেউ
    নতুন এন্ট্রি জমা দিলে সেটা এই sheet-এই যোগ হয়, কিন্তু Status খালি থাকা অবস্থায়
@@ -31,7 +32,7 @@ function smsLink(phone){
 
 function friendCard(f, idx){
   const name = f.name || "নাম নেই";
-  const roll = f.roll ? `রোল #${f.roll}` : `#${String(idx+1).padStart(3,"0")}`;
+  const serial = `#${String(idx+1).padStart(3,"0")}`;
   const photo = resolveImage(f.photo, name);
   const wa = f.whatsapp ? waLink(f.whatsapp) : waLink(f.phone);
   const sms = f.phone ? smsLink(f.phone) : null;
@@ -47,7 +48,7 @@ function friendCard(f, idx){
   return `
   <div class="col-sm-6 col-lg-4 col-xl-3 friend-col" data-name="${(name+" "+(f.position||"")+" "+(f.location||"")+" "+(f.group||"")).toLowerCase()}" data-group="${(f.group||"").toLowerCase()}">
     <div class="id-card">
-      <div class="roll mono">${roll}${f.group ? ` <span class="badge-group ms-1">${f.group}</span>` : ""}</div>
+      <div class="roll mono">${serial}${f.group ? ` <span class="badge-group ms-1">${f.group}</span>` : ""}</div>
       <div class="photo-wrap">
         <img src="${photo}" alt="${name} এর ছবি" loading="lazy"
              onerror="this.src='https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(name)}&backgroundColor=ece2c8'">

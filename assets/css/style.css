@@ -636,6 +636,7 @@ footer a{ color: var(--brass-2); }
 .community-btn.wa i{ color:#25D366; }
 .community-btn.fb i{ color:#1877F2; }
 .community-btn.tg i{ color:#26A5E4; }
+.community-btn.msg i{ color:#00B2FF; }
 
 /* --- Fun zone --- */
 .fun-pick-result{
@@ -685,3 +686,126 @@ footer a{ color: var(--brass-2); }
 }
 .ttt-cell:not(:disabled):hover{ background: var(--paper-2); }
 .ttt-cell:disabled{ cursor: default; }
+
+.ttt-reset-btn{
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: .55rem 1.1rem;
+}
+
+/* --- Fun-zone tabs --- */
+.funzone-tabs .nav-link{
+  font-family: var(--font-mono);
+  font-size: .8rem;
+  letter-spacing: .04em;
+  color: var(--ink);
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: .5rem 1.1rem;
+  margin-right: .5rem;
+  margin-bottom: .5rem;
+}
+.funzone-tabs .nav-link.active{
+  background: var(--ink);
+  color: var(--paper) !important;
+  border-color: var(--ink);
+}
+
+.btn-link-mini{
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--brass);
+  font-family: var(--font-mono);
+  font-size: .78rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.btn-link-mini:hover{ color: var(--red); }
+
+/* --- Memory match game --- */
+.memory-board{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: .5rem;
+  max-width: 320px;
+  margin: 0 auto;
+}
+.memory-card{
+  aspect-ratio: 1 / 1;
+  font-size: 1.5rem;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .15s ease, transform .1s ease;
+}
+.memory-card.is-flipped, .memory-card.is-matched{ background: var(--paper-2); }
+.memory-card.is-matched{ border-color: var(--brass-2); opacity: .7; }
+.memory-card:not(.is-flipped):not(.is-matched):hover{ transform: translateY(-2px); }
+
+/* --- Reaction time test --- */
+.reaction-box{
+  width: 100%;
+  padding: 2rem 1rem;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: .92rem;
+  color: var(--paper);
+  background: var(--ink);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+.reaction-box.is-waiting{ background: var(--red); }
+.reaction-box.is-go{ background: #2f7d4f; }
+
+/* --- Quiz options --- */
+.quiz-options{ display: flex; flex-direction: column; gap: .5rem; }
+.quiz-opt-btn{
+  text-align: left;
+  padding: .6rem .9rem;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: .88rem;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+.quiz-opt-btn:hover:not(:disabled){ background: var(--paper-2); }
+.quiz-opt-btn.is-correct{ background: #2f7d4f; color: var(--white); border-color: #2f7d4f; }
+.quiz-opt-btn.is-wrong{ background: var(--red); color: var(--white); border-color: var(--red); }
+.quiz-opt-btn:disabled{ cursor: default; }
+
+/* --- Group poll --- */
+.poll-opt-row{
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .55rem .7rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  margin-bottom: .5rem;
+  cursor: pointer;
+  background: var(--white);
+}
+.poll-opt-row.is-selected{ border-color: var(--brass-2); background: var(--paper-2); }
+.poll-bar-row{ margin-bottom: .8rem; }
+.poll-bar-track{
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  height: 22px;
+  overflow: hidden;
+  margin-top: .25rem;
+}
+.poll-bar-fill{
+  height: 100%;
+  background: var(--brass-2);
+  transition: width .4s ease;
+}

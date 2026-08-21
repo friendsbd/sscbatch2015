@@ -50,6 +50,7 @@
       <a href="#split"><i class="bi bi-calculator me-1"></i> বিল ক্যালকুলেটর</a>
       <a href="#guestbook"><i class="bi bi-chat-square-heart me-1"></i> মেসেজ ওয়াল</a>
       <a href="#funzone"><i class="bi bi-controller me-1"></i> ফান-জোন</a>
+      <a href="#grouppoll"><i class="bi bi-bar-chart-steps me-1"></i> গ্রুপ পোল</a>
       <a href="#community"><i class="bi bi-people me-1"></i> কমিউনিটি</a>
     </div>
   </div>
@@ -152,52 +153,411 @@
   <div class="container">
     <div class="sec-label">০৬ · কাজের ফাঁকে একটু আড্ডা</div>
     <h2 class="sec-title">ফান-জোন</h2>
-    <div class="row g-4">
+    <p class="text-secondary mb-4" style="max-width:640px;">৩০+টা ছোট্ট টুল আর গেম — গেম খেলো, বন্ধুদের নিয়ে মজা করো, আর কাজের দরকারি টুলসগুলোও পাশাপাশি রাখলাম। যেকোনো রেজাল্ট এক ক্লিকে ব্যাচের Messenger গ্রুপে শেয়ার করতে পারবে। সবকিছু ব্রাউজারেই চলে, কোনো ডাউনলোড লাগে না।</p>
 
-      <div class="col-lg-4">
-        <div class="split-card">
-          <h4 class="h6 mb-2"><i class="bi bi-shuffle me-1"></i> আজ কে "কুইনী"?</h4>
-          <p class="text-secondary small mb-3">এক ক্লিকে র‍্যান্ডম বন্ধুকে বেছে নাও — কে আজকে চা খাওয়াবে, কে গিফট আনবে বা যেকোনো ছোট্ট মজার দায়িত্ব ঠিক করতে।</p>
-          <button id="funPickBtn" class="btn-ink w-100"><i class="bi bi-shuffle me-1"></i> বেছে নাও</button>
-          <div class="fun-pick-result" id="funPickResult">এখনো কেউ বাছাই হয়নি</div>
+    <ul class="nav nav-pills funzone-tabs mb-4" id="funzoneTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="pill-games-tab" data-bs-toggle="pill" data-bs-target="#pill-games" type="button" role="tab"><i class="bi bi-controller me-1"></i> গেম</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pill-friendsfun-tab" data-bs-toggle="pill" data-bs-target="#pill-friendsfun" type="button" role="tab"><i class="bi bi-emoji-laughing me-1"></i> বন্ধুদের মজা</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pill-reallife-tab" data-bs-toggle="pill" data-bs-target="#pill-reallife" type="button" role="tab"><i class="bi bi-tools me-1"></i> রিয়েল-লাইফ টুলস</button>
+      </li>
+    </ul>
+
+    <div class="tab-content" id="funzoneTabContent">
+
+      <!-- ===== GAMES ===== -->
+      <div class="tab-pane fade show active" id="pill-games" role="tabpanel">
+        <div class="row g-4">
+
+          <div class="col-lg-6">
+            <div class="split-card">
+              <h4 class="h6 mb-3"><i class="bi bi-grid-3x3 me-1"></i> টিক-ট্যাক-টো (দুইজন)</h4>
+              <p class="text-secondary small mb-3">একই ফোনে/ল্যাপটপে পাশাপাশি বসে দুইজন খেলো — একজন X, আরেকজন O।</p>
+              <div id="tttBoard" class="ttt-board"></div>
+              <div class="d-flex flex-nowrap justify-content-between align-items-stretch gap-2 mt-3">
+                <div class="fun-pick-result mb-0 mt-0" id="tttStatus" style="flex:1; min-width:0;">শুরু করো — এখন X-এর পালা</div>
+                <button id="tttReset" class="btn-ink ttt-reset-btn">রিসেট</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-hand-index-thumb me-1"></i> রক-পেপার-সিজার্স</h4>
+              <p class="text-secondary small mb-3">বোরিং সময় কাটছে না? কম্পিউটারের বিপক্ষে এক রাউন্ড খেলে নাও।</p>
+              <div class="rps-buttons">
+                <button class="rps-btn" data-choice="rock" title="পাথর">🪨</button>
+                <button class="rps-btn" data-choice="paper" title="কাগজ">📄</button>
+                <button class="rps-btn" data-choice="scissors" title="কাঁচি">✂️</button>
+              </div>
+              <div class="fun-pick-result" id="rpsResult">তোমার চাল বেছে নাও</div>
+              <div class="d-flex justify-content-between mono small text-secondary mt-2">
+                <span>তুমি: <span id="rpsWin">০</span></span>
+                <span>কম্পিউটার: <span id="rpsLose">০</span></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-grid-3x2 me-1"></i> মেমোরি ম্যাচ</h4>
+              <p class="text-secondary small mb-3">জোড়া মিলিয়ে সবগুলো কার্ড খুলে ফেলো — যত কম চাল, তত ভালো স্কোর।</p>
+              <div id="memoryBoard" class="memory-board"></div>
+              <div class="d-flex flex-nowrap justify-content-between align-items-center gap-2 mt-3">
+                <div class="fun-pick-result mb-0 mt-0" id="memoryStatus" style="flex:1; min-width:0;">চাল: ০ · জোড়া: ০/৮</div>
+                <button id="memoryReset" class="btn-ink ttt-reset-btn">রিসেট</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-shuffle me-1"></i> শব্দ সাজাও</h4>
+              <p class="text-secondary small mb-3">অক্ষরগুলো এলোমেলো — সঠিক শব্দটা বসাও। প্রতিবার নতুন শব্দ।</p>
+              <div class="fun-pick-result" id="scrambleWord" style="font-size:1.3rem; letter-spacing:.15em;">শুরু করতে ক্লিক করো</div>
+              <div class="d-flex gap-2 mt-3">
+                <input type="text" id="scrambleInput" class="form-control" placeholder="তোমার উত্তর লেখো">
+                <button id="scrambleCheck" class="btn-ink" style="white-space:nowrap;">চেক করো</button>
+              </div>
+              <div class="d-flex justify-content-between mt-2">
+                <button id="scrambleNew" class="btn-link-mini"><i class="bi bi-arrow-repeat me-1"></i>নতুন শব্দ</button>
+                <span class="mono small text-secondary" id="scrambleScore">স্কোর: ০</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-dice-5 me-1"></i> ডাইস রোলার</h4>
+              <p class="text-secondary small mb-3">কয়টা ডাইস চাও বেছে নিয়ে গড়িয়ে দাও।</p>
+              <select id="diceCount" class="form-select mb-3">
+                <option value="1">১টা ডাইস</option>
+                <option value="2" selected>২টা ডাইস</option>
+                <option value="3">৩টা ডাইস</option>
+              </select>
+              <button id="diceRollBtn" class="btn-ink w-100"><i class="bi bi-dice-5 me-1"></i> গড়াও</button>
+              <div class="fun-pick-result" id="diceResult" style="font-size:1.6rem;">🎲</div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-coin me-1"></i> কয়েন টস</h4>
+              <p class="text-secondary small mb-3">কে আগে খেলবে, কে ট্রিট দেবে — টস করেই ঠিক করো।</p>
+              <button id="coinFlipBtn" class="btn-ink w-100"><i class="bi bi-coin me-1"></i> টস করো</button>
+              <div class="fun-pick-result" id="coinResult" style="font-size:1.6rem;">🪙</div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-lightning-charge me-1"></i> রিয়েকশন টাইম টেস্ট</h4>
+              <p class="text-secondary small mb-3">সবুজ হওয়া মাত্র ক্লিক করো — কত দ্রুত তোমার রিফ্লেক্স?</p>
+              <button id="reactionBox" class="reaction-box">ক্লিক করে শুরু করো</button>
+              <div class="fun-pick-result" id="reactionResult">এখনো টেস্ট করা হয়নি</div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-keyboard me-1"></i> টাইপিং স্পিড টেস্ট</h4>
+              <p class="text-secondary small mb-3">নিচের লাইনটা যত দ্রুত সম্ভব হুবহু টাইপ করো — WPM আর accuracy দেখাবে।</p>
+              <div class="fun-pick-result" id="typingPrompt" style="text-align:left;">শুরু করতে নিচে টাইপ করো</div>
+              <textarea id="typingInput" class="form-control mt-2" rows="2" placeholder="এখানে টাইপ শুরু করো..." disabled></textarea>
+              <div class="d-flex justify-content-between mono small text-secondary mt-2">
+                <span>WPM: <span id="typingWpm">০</span></span>
+                <span>Accuracy: <span id="typingAcc">১০০%</span></span>
+                <button id="typingReset" class="btn-link-mini">আবার শুরু</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-patch-question me-1"></i> ব্যাচ ট্রিভিয়া কুইজ</h4>
+              <p class="text-secondary small mb-3">কয়েকটা মজার সাধারণ জ্ঞান প্রশ্ন — একটার পর একটা আসবে।</p>
+              <div class="fun-pick-result" id="quizQuestion">শুরু করতে নিচে ক্লিক করো</div>
+              <div id="quizOptions" class="quiz-options mt-2"></div>
+              <div class="d-flex justify-content-between mono small text-secondary mt-2">
+                <span>স্কোর: <span id="quizScore">০</span>/<span id="quizTotal">০</span></span>
+                <button id="quizStart" class="btn-link-mini">শুরু/আবার শুরু</button>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
-      <div class="col-lg-4">
-        <div class="split-card">
-          <h4 class="h6 mb-2"><i class="bi bi-stars me-1"></i> আজকের খেতাব</h4>
-          <p class="text-secondary small mb-3">এক ক্লিকে নিজের জন্য একটা মজার, র‍্যান্ডম "আজকের খেতাব" জেনারেট করো। বন্ধুদের গ্রুপে শেয়ার করো!</p>
-          <button id="funTitleBtn" class="btn-ink w-100"><i class="bi bi-stars me-1"></i> খেতাব বানাও</button>
-          <div class="fun-pick-result" id="funTitleResult">এখনো জেনারেট করা হয়নি</div>
+      <!-- ===== FRIENDS FUN ===== -->
+      <div class="tab-pane fade" id="pill-friendsfun" role="tabpanel">
+        <div class="row g-4">
+
+          <div class="col-lg-4">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-shuffle me-1"></i> আজ কে "কুইনী"?</h4>
+              <p class="text-secondary small mb-3">এক ক্লিকে র‍্যান্ডম বন্ধুকে বেছে নাও — কে আজকে চা খাওয়াবে, কে গিফট আনবে বা যেকোনো ছোট্ট মজার দায়িত্ব ঠিক করতে।</p>
+              <button id="funPickBtn" class="btn-ink w-100"><i class="bi bi-shuffle me-1"></i> বেছে নাও</button>
+              <div class="fun-pick-result" id="funPickResult">এখনো কেউ বাছাই হয়নি</div>
+              <button class="btn-link-mini share-btn mt-2" data-share-target="funPickResult" data-share-label="আজ কে &quot;কুইনী&quot;"><i class="bi bi-messenger me-1"></i>মেসেঞ্জারে শেয়ার করো</button>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-stars me-1"></i> আজকের খেতাব</h4>
+              <p class="text-secondary small mb-3">এক ক্লিকে নিজের জন্য একটা মজার, র‍্যান্ডম "আজকের খেতাব" জেনারেট করো। বন্ধুদের গ্রুপে শেয়ার করো!</p>
+              <button id="funTitleBtn" class="btn-ink w-100"><i class="bi bi-stars me-1"></i> খেতাব বানাও</button>
+              <div class="fun-pick-result" id="funTitleResult">এখনো জেনারেট করা হয়নি</div>
+              <button class="btn-link-mini share-btn mt-2" data-share-target="funTitleResult" data-share-label="আজকের খেতাব"><i class="bi bi-messenger me-1"></i>মেসেঞ্জারে শেয়ার করো</button>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-people-fill me-1"></i> গিফট এক্সচেঞ্জ পেয়ারিং</h4>
+              <p class="text-secondary small mb-3">নাম বসাও (এক লাইনে একটা), ক্লিক করলেই কে কাকে গিফট দেবে তার এলোমেলো জোড়া বানিয়ে দেবে — সিক্রেট স্যান্টার মতো।</p>
+              <textarea id="pairNames" class="form-control mb-2" rows="3" placeholder="শ্রেয়সী&#10;প্রথেস&#10;শম্পা&#10;..."></textarea>
+              <button id="pairBtn" class="btn-ink w-100"><i class="bi bi-people-fill me-1"></i> জোড়া বানাও</button>
+              <div class="fun-pick-result" id="pairResult" style="text-align:left; white-space:pre-line;">নাম বসিয়ে বাটনে ক্লিক করো</div>
+              <button class="btn-link-mini share-btn mt-2" data-share-target="pairResult" data-share-label="গিফট এক্সচেঞ্জ পেয়ারিং"><i class="bi bi-messenger me-1"></i>মেসেঞ্জারে শেয়ার করো</button>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-signpost-split me-1"></i> এটা নাকি ওটা</h4>
+              <p class="text-secondary small mb-3">গ্রুপে জোরে জিজ্ঞেস করো, সবাইকে চয়েস বলতে বলো — মজার তর্ক শুরু হবেই।</p>
+              <button id="wyrBtn" class="btn-ink w-100"><i class="bi bi-signpost-split me-1"></i> প্রশ্ন আনো</button>
+              <div class="fun-pick-result" id="wyrResult">এখনো প্রশ্ন আসেনি</div>
+              <button class="btn-link-mini share-btn mt-2" data-share-target="wyrResult" data-share-label="এটা নাকি ওটা"><i class="bi bi-messenger me-1"></i>মেসেঞ্জারে শেয়ার করো</button>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-emoji-wink me-1"></i> সত্যি নাকি সাহস</h4>
+              <p class="text-secondary small mb-3">গোল হয়ে বসো, একজন করে ক্লিক করুক — সত্যি বলবে নাকি চ্যালেঞ্জ নেবে!</p>
+              <button id="totdBtn" class="btn-ink w-100"><i class="bi bi-emoji-wink me-1"></i> চাল দাও</button>
+              <div class="fun-pick-result" id="totdResult">এখনো চাল দেওয়া হয়নি</div>
+              <button class="btn-link-mini share-btn mt-2" data-share-target="totdResult" data-share-label="সত্যি নাকি সাহস"><i class="bi bi-messenger me-1"></i>মেসেঞ্জারে শেয়ার করো</button>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-heart-fill me-1"></i> বন্ধুত্ব / লাভ মিটার</h4>
+              <p class="text-secondary small mb-3">দুইজনের নাম বসাও।</p>
+              <input type="text" id="matchName1" class="form-control mb-2" placeholder="প্রথম নাম">
+              <input type="text" id="matchName2" class="form-control mb-2" placeholder="দ্বিতীয় নাম">
+              <button id="matchBtn" class="btn-ink w-100"><i class="bi bi-heart-fill me-1"></i> মিলিয়ে দেখো</button>
+              <div class="fun-pick-result" id="matchResult">নাম বসিয়ে দেখো</div>
+              <button class="btn-link-mini share-btn mt-2" data-share-target="matchResult" data-share-label="বন্ধুত্বের শতাংশ"><i class="bi bi-messenger me-1"></i>মেসেঞ্জারে শেয়ার করো</button>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-chat-square-text me-1"></i> আইসব্রেকার প্রশ্ন</h4>
+              <p class="text-secondary small mb-3">আড্ডা জমছে না? এক ক্লিকে একটা প্রশ্ন আনো, ঘুরিয়ে ঘুরিয়ে সবাই উত্তর দাও।</p>
+              <button id="icebreakerBtn" class="btn-ink w-100"><i class="bi bi-chat-square-text me-1"></i> প্রশ্ন আনো</button>
+              <div class="fun-pick-result" id="icebreakerResult">এখনো প্রশ্ন আসেনি</div>
+              <button class="btn-link-mini share-btn mt-2" data-share-target="icebreakerResult" data-share-label="আইসব্রেকার প্রশ্ন"><i class="bi bi-messenger me-1"></i>মেসেঞ্জারে শেয়ার করো</button>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="split-card">
+              <h4 class="h6 mb-3"><i class="bi bi-arrow-repeat me-1"></i> চাকা ঘোরাও</h4>
+              <p class="text-secondary small mb-3">নাম বা অপশন বসাও (কমা দিয়ে আলাদা করে) — চাকা ঘুরিয়ে একজনকে বেছে নাও।</p>
+              <input type="text" id="wheelInput" class="form-control mb-2" placeholder="যেমন: রাফি, তানভীর, নিলয়, সাদিয়া">
+              <button id="wheelSpinBtn" class="btn-ink w-100 mb-2"><i class="bi bi-arrow-repeat me-1"></i> ঘুরাও</button>
+              <div class="fun-pick-result" id="wheelResult">নাম বসিয়ে চাকা ঘুরাও</div>
+              <button class="btn-link-mini share-btn mt-2" data-share-target="wheelResult" data-share-label="চাকা ঘোরাও"><i class="bi bi-messenger me-1"></i>মেসেঞ্জারে শেয়ার করো</button>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-emoji-surprise me-1"></i> কখনো করিনি</h4>
+              <p class="text-secondary small mb-3">গোল হয়ে বসো, একটা লাইন আনো — যে যে কখনো করেছে সে আঙুল ভাঁজ করবে!</p>
+              <button id="nhieBtn" class="btn-ink w-100"><i class="bi bi-emoji-surprise me-1"></i> লাইন আনো</button>
+              <div class="fun-pick-result" id="nhieResult">এখনো লাইন আনা হয়নি</div>
+              <button class="btn-link-mini share-btn mt-2" data-share-target="nhieResult" data-share-label="কখনো করিনি"><i class="bi bi-messenger me-1"></i>মেসেঞ্জারে শেয়ার করো</button>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-emoji-heart-eyes me-1"></i> ব্যাচমেট প্রশংসা জেনারেটর</h4>
+              <p class="text-secondary small mb-3">নাম বসাও — ওর জন্য একটা মজার, র‍্যান্ডম প্রশংসা বানিয়ে দেবে। গ্রুপে ট্যাগ করে পাঠিয়ে দাও।</p>
+              <input type="text" id="complimentName" class="form-control mb-2" placeholder="বন্ধুর নাম">
+              <button id="complimentBtn" class="btn-ink w-100"><i class="bi bi-emoji-heart-eyes me-1"></i> প্রশংসা বানাও</button>
+              <div class="fun-pick-result" id="complimentResult">নাম বসিয়ে দেখো</div>
+              <button class="btn-link-mini share-btn mt-2" data-share-target="complimentResult" data-share-label="ব্যাচমেট প্রশংসা"><i class="bi bi-messenger me-1"></i>মেসেঞ্জারে শেয়ার করো</button>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-feather me-1"></i> মজার গল্প / কবিতা জেনারেটর</h4>
+              <p class="text-secondary small mb-3">এক ক্লিকে বাংলায় একটা মজার ছোট্ট গল্প বা কবিতা বানাও — চাইলে কারো নাম বসিয়ে তাকে নিয়েই বানাও।</p>
+              <input type="text" id="storyName" class="form-control mb-2" placeholder="নাম (ঐচ্ছিক) — না দিলে 'বন্ধু' বসবে">
+              <button id="storyBtn" class="btn-ink w-100"><i class="bi bi-feather me-1"></i> বানাও</button>
+              <div class="fun-pick-result" id="storyResult" style="text-align:left; white-space:pre-line;">ক্লিক করে দেখো</div>
+              <button class="btn-link-mini share-btn mt-2" data-share-target="storyResult" data-share-label="মজার গল্প/কবিতা"><i class="bi bi-messenger me-1"></i>মেসেঞ্জারে শেয়ার করো</button>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-journal-heart me-1"></i> স্কুলজীবনের মুহূর্ত জেনারেটর</h4>
+              <p class="text-secondary small mb-3">আবেগ, ভালোবাসা আর পুরোনো মুহূর্তে ভরা একটা লাইন বানাও — ব্যাচের গ্রুপে পোস্ট করার জন্য একদম মানানসই।</p>
+              <button id="momentBtn" class="btn-ink w-100"><i class="bi bi-journal-heart me-1"></i> মুহূর্ত আনো</button>
+              <div class="fun-pick-result" id="momentResult">ক্লিক করে দেখো</div>
+              <button class="btn-link-mini share-btn mt-2" data-share-target="momentResult" data-share-label="স্কুলজীবনের মুহূর্ত"><i class="bi bi-messenger me-1"></i>মেসেঞ্জারে শেয়ার করো</button>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-balloon-heart me-1"></i> জন্মদিনের শুভেচ্ছা SMS জেনারেটর</h4>
+              <p class="text-secondary small mb-3">নির্দিষ্ট বন্ধুর নাম বসাও — ওর জন্য একটা রেডি জন্মদিনের শুভেচ্ছা মেসেজ বানিয়ে দেবে, সরাসরি পাঠিয়ে দাও।</p>
+              <input type="text" id="birthdayWishName" class="form-control mb-2" placeholder="বন্ধুর নাম">
+              <button id="birthdayWishBtn" class="btn-ink w-100"><i class="bi bi-balloon-heart me-1"></i> শুভেচ্ছা বানাও</button>
+              <div class="fun-pick-result" id="birthdayWishResult" style="text-align:left; white-space:pre-line;">নাম বসিয়ে দেখো</div>
+              <button class="btn-link-mini share-btn mt-2" data-share-target="birthdayWishResult" data-share-label="জন্মদিনের শুভেচ্ছা"><i class="bi bi-messenger me-1"></i>মেসেঞ্জারে শেয়ার করো</button>
+            </div>
+          </div>
+
         </div>
       </div>
 
-      <div class="col-lg-4">
-        <div class="split-card">
-          <h4 class="h6 mb-2"><i class="bi bi-hand-index-thumb me-1"></i> রক-পেপার-সিজার্স</h4>
-          <p class="text-secondary small mb-3">বোরিং সময় কাটছে না? কম্পিউটারের বিপক্ষে এক রাউন্ড খেলে নাও।</p>
-          <div class="rps-buttons">
-            <button class="rps-btn" data-choice="rock" title="পাথর">🪨</button>
-            <button class="rps-btn" data-choice="paper" title="কাগজ">📄</button>
-            <button class="rps-btn" data-choice="scissors" title="কাঁচি">✂️</button>
-          </div>
-          <div class="fun-pick-result" id="rpsResult">তোমার চাল বেছে নাও</div>
-          <div class="d-flex justify-content-between mono small text-secondary mt-2">
-            <span>তুমি: <span id="rpsWin">০</span></span>
-            <span>কম্পিউটার: <span id="rpsLose">০</span></span>
-          </div>
-        </div>
-      </div>
+      <!-- ===== REAL LIFE TOOLS ===== -->
+      <div class="tab-pane fade" id="pill-reallife" role="tabpanel">
+        <div class="row g-4">
 
-      <div class="col-lg-6">
-        <div class="split-card">
-          <h4 class="h6 mb-3"><i class="bi bi-grid-3x3 me-1"></i> টিক-ট্যাক-টো (দুইজন)</h4>
-          <p class="text-secondary small mb-3">একই ফোনে/ল্যাপটপে পাশাপাশি বসে দুইজন খেলো — একজন X, আরেকজন O।</p>
-          <div id="tttBoard" class="ttt-board"></div>
-          <div class="d-flex justify-content-between align-items-center mt-3">
-            <div class="fun-pick-result mb-0" id="tttStatus" style="flex:1;">শুরু করো — এখন X-এর পালা</div>
-            <button id="tttReset" class="btn-ink" style="white-space:nowrap;">রিসেট</button>
+          <div class="col-lg-4">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-cake2 me-1"></i> বয়স ক্যালকুলেটর</h4>
+              <p class="text-secondary small mb-3">জন্ম তারিখ বসাও — সঠিক বছর, মাস, দিন বলে দেবে।</p>
+              <input type="date" id="ageInput" class="form-control mb-2">
+              <button id="ageCalcBtn" class="btn-ink w-100">হিসাব করো</button>
+              <div class="fun-pick-result" id="ageResult">তারিখ বসাও</div>
+              <button class="btn-link-mini share-btn mt-2" data-share-target="ageResult" data-share-label="বয়স ক্যালকুলেটর"><i class="bi bi-messenger me-1"></i>মেসেঞ্জারে শেয়ার করো</button>
+            </div>
           </div>
+
+          <div class="col-lg-4">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-heart-pulse me-1"></i> BMI ক্যালকুলেটর</h4>
+              <p class="text-secondary small mb-3">উচ্চতা (সেমি) আর ওজন (কেজি) বসাও।</p>
+              <input type="number" id="bmiHeight" class="form-control mb-2" placeholder="উচ্চতা (সেমি) — যেমন ১৭০">
+              <input type="number" id="bmiWeight" class="form-control mb-2" placeholder="ওজন (কেজি) — যেমন ৬৫">
+              <button id="bmiCalcBtn" class="btn-ink w-100">হিসাব করো</button>
+              <div class="fun-pick-result" id="bmiResult">তথ্য বসাও</div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-arrow-left-right me-1"></i> একক রূপান্তরকারী</h4>
+              <p class="text-secondary small mb-3">দ্রুত কিছু কমন ইউনিট কনভার্সন।</p>
+              <select id="convType" class="form-select mb-2">
+                <option value="km_mile">কিলোমিটার → মাইল</option>
+                <option value="kg_lb">কেজি → পাউন্ড</option>
+                <option value="c_f">সেলসিয়াস → ফারেনহাইট</option>
+              </select>
+              <input type="number" id="convInput" class="form-control mb-2" placeholder="মান বসাও">
+              <button id="convBtn" class="btn-ink w-100">রূপান্তর করো</button>
+              <div class="fun-pick-result" id="convResult">মান বসাও</div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-shield-lock me-1"></i> পাসওয়ার্ড জেনারেটর</h4>
+              <p class="text-secondary small mb-3">শক্তিশালী, র‍্যান্ডম পাসওয়ার্ড এক ক্লিকে।</p>
+              <select id="pwLength" class="form-select mb-2">
+                <option value="8">৮ ক্যারেক্টার</option>
+                <option value="12" selected>১২ ক্যারেক্টার</option>
+                <option value="16">১৬ ক্যারেক্টার</option>
+              </select>
+              <button id="pwGenBtn" class="btn-ink w-100">জেনারেট করো</button>
+              <div class="fun-pick-result mono" id="pwResult" style="word-break:break-all;">জেনারেট করো</div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-stopwatch me-1"></i> স্টপওয়াচ ও টাইমার</h4>
+              <p class="text-secondary small mb-3">গেম খেলার সময় ধরো, বা কাউন্টডাউন সেট করো।</p>
+              <div class="fun-pick-result mono" id="stopwatchDisplay" style="font-size:1.5rem;">০০:০০.০</div>
+              <div class="d-flex gap-2 mt-2">
+                <button id="stopwatchStart" class="btn-ink flex-fill">শুরু</button>
+                <button id="stopwatchStop" class="btn-ink flex-fill">থামো</button>
+                <button id="stopwatchResetBtn" class="btn-ink flex-fill">রিসেট</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-fonts me-1"></i> শব্দ ও অক্ষর গণনা</h4>
+              <p class="text-secondary small mb-3">বক্তৃতা, স্পিচ বা পোস্ট লিখছো? লেংথ চেক করো।</p>
+              <textarea id="wordCountInput" class="form-control mb-2" rows="3" placeholder="এখানে লেখো বা পেস্ট করো..."></textarea>
+              <div class="d-flex justify-content-between mono small text-secondary">
+                <span>শব্দ: <span id="wcWords">০</span></span>
+                <span>অক্ষর: <span id="wcChars">০</span></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-qr-code me-1"></i> QR কোড জেনারেটর</h4>
+              <p class="text-secondary small mb-3">যেকোনো লিংক (WhatsApp গ্রুপ, ফর্ম ইত্যাদি) থেকে QR কোড বানাও — পোস্টারে/ব্যানারে লাগাও।</p>
+              <input type="text" id="qrInput" class="form-control mb-2" placeholder="লিংক বা টেক্সট বসাও">
+              <button id="qrGenBtn" class="btn-ink w-100 mb-3">QR বানাও</button>
+              <div class="text-center" id="qrOutput"></div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-calendar-event me-1"></i> রিইউনিয়ন কাউন্টডাউন</h4>
+              <p class="text-secondary small mb-3">পরের বড় ইভেন্টের তারিখ বসাও — লাইভ কাউন্টডাউন দেখাবে (শুধু তোমার ব্রাউজারে, লোকাল)।</p>
+              <input type="date" id="countdownDate" class="form-control mb-2">
+              <button id="countdownSetBtn" class="btn-ink w-100 mb-2">সেট করো</button>
+              <div class="fun-pick-result mono" id="countdownResult" style="font-size:1.2rem;">তারিখ সেট করো</div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-percent me-1"></i> শতাংশ ক্যালকুলেটর</h4>
+              <p class="text-secondary small mb-3">চাঁদা, ছাড় বা যেকোনো হিসাবে দ্রুত শতাংশ বের করো।</p>
+              <input type="number" id="pctValue" class="form-control mb-2" placeholder="যেমন: ২৫ (শতাংশ)">
+              <input type="number" id="pctOf" class="form-control mb-2" placeholder="যেমন: ৫০০০ (এর মধ্যে)">
+              <button id="pctCalcBtn" class="btn-ink w-100">হিসাব করো</button>
+              <div class="fun-pick-result" id="pctResult">মান বসাও</div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="split-card">
+              <h4 class="h6 mb-2"><i class="bi bi-calendar2-range me-1"></i> তারিখের ব্যবধান ক্যালকুলেটর</h4>
+              <p class="text-secondary small mb-3">দুইটা তারিখ বসাও — মাঝে কত দিন/মাস/বছর সেটা বলে দেবে। রিইউনিয়ন প্ল্যান করতে কাজে লাগবে।</p>
+              <input type="date" id="dateDiffFrom" class="form-control mb-2">
+              <input type="date" id="dateDiffTo" class="form-control mb-2">
+              <button id="dateDiffBtn" class="btn-ink w-100">হিসাব করো</button>
+              <div class="fun-pick-result" id="dateDiffResult">দুইটা তারিখ বসাও</div>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -205,10 +565,38 @@
   </div>
 </section>
 
+<!-- GROUP POLL -->
+<section id="grouppoll">
+  <div class="container">
+    <div class="sec-label">০৭ · সবাইকে এক জায়গায় নিয়ে</div>
+    <h2 class="sec-title">গ্রুপ পোল — সবার ভোট এক সাথে</h2>
+    <p class="text-secondary mb-4" style="max-width:640px;">এই পোলটা একটা শেয়ার্ড Google Sheet-এ চলে — মানে ব্যাচের যে কেউ, যেকোনো ডিভাইস থেকে ভোট দিলে ফলাফল সবার জন্য একসাথে আপডেট হয়। প্রশ্ন বদলাতে চাইলে config.js-এ POLL_QUESTION/POLL_OPTIONS বদলাও।</p>
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="split-card">
+          <h4 class="h6 mb-1" id="pollQuestion">পোল লোড হচ্ছে...</h4>
+          <p class="text-secondary small mb-3">তোমার নাম আর একটা অপশন বেছে ভোট দাও — একবারই দেওয়া যাবে (এই ব্রাউজারে)।</p>
+          <input type="text" id="pollName" class="form-control mb-2" placeholder="তোমার নাম">
+          <div id="pollOptions" class="mb-2"></div>
+          <button id="pollSubmitBtn" class="btn-ink w-100" disabled>ভোট দাও</button>
+          <div class="fun-pick-result" id="pollStatus">প্রথমে নাম আর অপশন বেছে নাও</div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="split-card">
+          <h4 class="h6 mb-3"><i class="bi bi-bar-chart-fill me-1"></i> লাইভ ফলাফল</h4>
+          <div id="pollResults"><div class="state-msg"><span class="spin"></span> লোড হচ্ছে...</div></div>
+          <button id="pollRefreshBtn" class="btn-link-mini mt-2"><i class="bi bi-arrow-repeat me-1"></i> রিফ্রেশ করো</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- COMMUNITY -->
 <section id="community">
   <div class="container">
-    <div class="sec-label">০৭ · রোজকার যোগাযোগ</div>
+    <div class="sec-label">০৮ · রোজকার যোগাযোগ</div>
     <h2 class="sec-title">কমিউনিটি গ্রুপ</h2>
     <div class="community-grid" id="communityGrid">
       <div class="state-msg">লোড হচ্ছে...</div>
@@ -228,8 +616,7 @@
       </div>
     </div>
     <div class="footer-credit">
-      এই ওয়েবসাইট ডিজাইন ও ডেভেলপ করেছেন SSC ব্যাচ ২০১৫-এর <strong style="color:var(--paper)">Engr. Prothes</strong> —
-      <a href="https://prothesbarai.github.io" target="_blank" rel="noopener">prothesbarai.github.io</a>
+      এই ওয়েবসাইট ডিজাইন ও ডেভেলপ করেছে <a href="https://psbmlabs.github.io" target="_blank" rel="noopener" style="color:var(--paper); font-weight:700;">PSBMLabs</a>
     </div>
   </div>
 </footer>
@@ -245,6 +632,8 @@
 <script src="assets/js/guestbook.js"></script>
 <script src="assets/js/billsplit.js"></script>
 <script src="assets/js/funzone.js"></script>
+<script src="assets/js/moretools.js"></script>
+<script src="assets/js/poll.js"></script>
 <script>
   function communityBtn(href, icon, cls, title, sub){
     if (!href) return "";
@@ -256,6 +645,7 @@
   document.addEventListener("DOMContentLoaded", () => {
     const grid = document.getElementById("communityGrid");
     const btns = [
+      communityBtn(CONFIG.MESSENGER_GROUP_URL, "bi-messenger", "msg", "Messenger গ্রুপ", "আড্ডা আর টুলের রেজাল্ট শেয়ার"),
       communityBtn(CONFIG.WHATSAPP_GROUP_URL, "bi-whatsapp", "wa", "WhatsApp গ্রুপ", "দ্রুত মেসেজ আদান-প্রদান"),
       communityBtn(CONFIG.FACEBOOK_GROUP_URL, "bi-facebook", "fb", "Facebook গ্রুপ", "ছবি ও পোস্ট শেয়ার"),
       communityBtn(CONFIG.TELEGRAM_GROUP_URL, "bi-telegram", "tg", "Telegram গ্রুপ", "ফাইল ও অ্যানাউন্সমেন্ট"),

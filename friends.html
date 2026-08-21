@@ -75,13 +75,65 @@
     <h2 class="sec-title">রেজিস্ট্রেশন ফর্ম</h2>
     <div class="row g-4">
       <div class="col-lg-7">
-        <div id="registerForm"><div class="state-msg"><span class="spin"></span> ফর্ম লোড হচ্ছে...</div></div>
+        <form id="registerForm" class="split-card" novalidate>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label mono small text-secondary text-uppercase">নাম <span class="text-danger">*</span></label>
+              <input type="text" name="name" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label mono small text-secondary text-uppercase">জন্ম তারিখ <span class="text-danger">*</span></label>
+              <input type="date" name="birthday" class="form-control" required>
+              <div class="form-text">জন্মদিনের দিন সবাইকে সাইটে মনে করিয়ে দেওয়া হবে।</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label mono small text-secondary text-uppercase">গ্রুপ / শাখা <span class="text-danger">*</span></label>
+              <input type="text" name="group" class="form-control" placeholder="যেমন: বিজ্ঞান" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label mono small text-secondary text-uppercase">পেশা / অবস্থান (Position) <span class="text-danger">*</span></label>
+              <input type="text" name="position" class="form-control" placeholder="যেমন: ইঞ্জিনিয়ার" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label mono small text-secondary text-uppercase">এলাকা (Location) <span class="text-danger">*</span></label>
+              <input type="text" name="location" class="form-control" placeholder="যেমন: ঢাকা" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label mono small text-secondary text-uppercase">ছবির ফাইলের নাম বা লিংক <span class="text-danger">*</span></label>
+              <input type="text" name="photo" class="form-control" placeholder="যেমন: rafi.jpg বা পুরো URL" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label mono small text-secondary text-uppercase">ফোন নম্বর <span class="text-danger">*</span></label>
+              <input type="tel" name="phone" class="form-control" placeholder="যেমন: 017XXXXXXXX" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label mono small text-secondary text-uppercase">ইমেইল <span class="text-danger">*</span></label>
+              <input type="email" name="email" class="form-control" placeholder="you@example.com" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label mono small text-secondary text-uppercase">WhatsApp নম্বর <span class="text-danger">*</span></label>
+              <input type="tel" name="whatsapp" class="form-control" placeholder="যেমন: 017XXXXXXXX" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label mono small text-secondary text-uppercase">Facebook লিংক <span class="text-danger">*</span></label>
+              <input type="url" name="facebook" class="form-control" placeholder="https://facebook.com/..." required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label mono small text-secondary text-uppercase">Instagram লিংক <span class="text-danger">*</span></label>
+              <input type="url" name="instagram" class="form-control" placeholder="https://instagram.com/..." required>
+            </div>
+          </div>
+          <button type="submit" id="registerSubmitBtn" class="btn-ink w-100 mt-4">
+            <i class="bi bi-send me-1"></i> জমা দাও
+          </button>
+          <div class="fun-pick-result mt-3" id="registerStatus" style="display:none;"></div>
+        </form>
       </div>
       <div class="col-lg-5">
         <div class="split-card">
           <h4 class="h6 mb-3"><i class="bi bi-info-circle me-1"></i> কীভাবে কাজ করে</h4>
           <ol class="small text-secondary ps-3 mb-0" style="line-height:1.9;">
-            <li>ফর্মটা পূরণ করে সাবমিট করো — নাম, রোল, ছবির ফাইলের নাম (GitHub-এ আপলোড করা থাকলে), যোগাযোগের তথ্য ইত্যাদি।</li>
+            <li>ফর্মটা পূরণ করে সাবমিট করো — নাম, ছবির ফাইলের নাম (GitHub-এ আপলোড করা থাকলে), জন্ম তারিখ, যোগাযোগের তথ্য ইত্যাদি।</li>
             <li>তোমার তথ্য সরাসরি ব্যাচের Google Sheet-এ জমা হয়ে যাবে।</li>
             <li>অ্যাডমিন রিভিউ করে Sheet-এ তোমার রো-র <b>Status</b> কলামে <span class="mono">1</span> বসিয়ে দিলেই তোমার প্রোফাইল কার্ড এই পাতায় দেখা যাবে।</li>
             <li>রিভিউ হতে একটু সময় লাগতে পারে — অ্যাপ্রুভ না হওয়া পর্যন্ত প্রোফাইল পাবলিকলি দেখাবে না।</li>
@@ -104,8 +156,7 @@
       </div>
     </div>
     <div class="footer-credit">
-      এই ওয়েবসাইট ডিজাইন ও ডেভেলপ করেছেন SSC ব্যাচ ২০১৫-এর <strong style="color:var(--paper)">Engr. Prothes</strong> —
-      <a href="https://prothesbarai.github.io" target="_blank" rel="noopener">prothesbarai.github.io</a>
+      এই ওয়েবসাইট ডিজাইন ও ডেভেলপ করেছে <a href="https://psbmlabs.github.io" target="_blank" rel="noopener" style="color:var(--paper); font-weight:700;">PSBMLabs</a>
     </div>
   </div>
 </footer>
@@ -116,16 +167,6 @@
 <script src="assets/js/main.js"></script>
 <script src="assets/js/friends.js"></script>
 <script src="assets/js/birthday.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const formWrap = document.getElementById("registerForm");
-    if (!formWrap) return;
-    if (CONFIG.FRIENDS_REGISTER_FORM_EMBED_URL && !CONFIG.FRIENDS_REGISTER_FORM_EMBED_URL.startsWith("PASTE_")){
-      formWrap.innerHTML = `<iframe src="${CONFIG.FRIENDS_REGISTER_FORM_EMBED_URL}" width="100%" height="640" style="border:1px solid var(--line);border-radius:8px;" loading="lazy">লোড হচ্ছে...</iframe>`;
-    } else {
-      formWrap.innerHTML = `<div class="state-msg">রেজিস্ট্রেশন ফর্ম এখনো যোগ করা হয়নি — README.md দেখো কীভাবে Google Form বানিয়ে config.js এ FRIENDS_REGISTER_FORM_EMBED_URL বসাতে হয়।</div>`;
-    }
-  });
-</script>
+<script src="assets/js/register.js"></script>
 </body>
 </html>
