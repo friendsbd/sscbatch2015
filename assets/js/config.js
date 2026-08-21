@@ -53,11 +53,15 @@ const CONFIG = {
   FUND_GOAL: 50000, // টার্গেট এমাউন্ট (টাকা) — প্রগ্রেস বার এই সংখ্যা অনুযায়ী দেখাবে
   FUND_INFO: "ব্যাচ রিইউনিয়ন, বিপদে-আপদে বন্ধুর পাশে দাঁড়ানো আর ছোটখাটো ব্যাচ-খরচের জন্য এই ফান্ড। কে কত দিয়েছে সেটা শুধু এখানে হিসাব হিসেবে দেখানো হয় — টাকা পাঠানো হয় bKash/Nagad/হাতে হাতে, নিজেদের মধ্যে; ওয়েবসাইট শুধু স্বচ্ছতার জন্য হিসাবটা সবাইকে দেখায়।", // ফান্ড সেকশনের উপরে এই লেখাটা দেখাবে, চাইলে বদলে নাও
 
-  // ---------- 8) গেস্টবুক / মেসেজ ওয়াল (ঐচ্ছিক টুল) ----------
-  // একটা Google Form বানাও (Name + Message ফিল্ড) — Form Responses শিট থেকে পড়া হবে
-  GUESTBOOK_FORM_EMBED_URL: "PASTE_GOOGLE_FORM_EMBED_URL_HERE", // Form -> Send -> <> এম্বেড লিংক
-  GUESTBOOK_SHEET_ID: "PASTE_GUESTBOOK_RESPONSES_SHEET_ID_HERE", // ওই Form-এর Responses শিট
-  GUESTBOOK_SHEET_GID: "0",
+  // ---------- 8) ব্যাচ ওয়াল (tools.html, ঐচ্ছিক টুল) ----------
+  // friends.html-এর রেজিস্ট্রেশন ফর্মের মতোই — কোনো Google Form লাগে না।
+  // SUBMIT_SCRIPT_URL (নিচে ১১ নম্বর) দিয়েই সরাসরি Sheet-এ পোস্ট লেখা হয়,
+  // Apps Script নিজে থেকেই "Wall" নামের একটা নতুন ট্যাব বানিয়ে নেবে (প্রথম পোস্টের সময়)।
+  // ওয়াল পড়ার জন্য ওই ট্যাবের Sheet ID/GID এখানে বসাও — Friends Sheet-এর মতোই একই স্প্রেডশিটে
+  // থাকবে (যেটাতে Apps Script ডিপ্লয় করেছো), শুধু ট্যাব বদলাবে। প্রথমবার কেউ পোস্ট করার পর
+  // Sheet-এ গিয়ে "Wall" ট্যাবে ক্লিক করে URL-এর #gid=... নাম্বারটা এখানে বসাও (PollVotes-এর মতোই)।
+  WALL_SHEET_ID: "PASTE_WALL_SHEET_ID_HERE",
+  WALL_SHEET_GID: "0",
 
   // ---------- 9) কমিউনিটি লিংক (ঐচ্ছিক) ----------
   WHATSAPP_GROUP_URL: "", // যেমন: https://chat.whatsapp.com/xxxxxxx
@@ -94,7 +98,7 @@ const FRIENDS_CSV_URL   = sheetCsvUrl(CONFIG.FRIENDS_SHEET_ID, CONFIG.FRIENDS_SH
 const EVENTS_CSV_URL    = sheetCsvUrl(CONFIG.EVENTS_SHEET_ID, CONFIG.EVENTS_SHEET_GID);
 const NOTICES_CSV_URL   = sheetCsvUrl(CONFIG.NOTICES_SHEET_ID, CONFIG.NOTICES_SHEET_GID);
 const FUND_CSV_URL      = sheetCsvUrl(CONFIG.FUND_SHEET_ID, CONFIG.FUND_SHEET_GID);
-const GUESTBOOK_CSV_URL = sheetCsvUrl(CONFIG.GUESTBOOK_SHEET_ID, CONFIG.GUESTBOOK_SHEET_GID);
+const WALL_CSV_URL      = sheetCsvUrl(CONFIG.WALL_SHEET_ID, CONFIG.WALL_SHEET_GID);
 const POLL_CSV_URL      = sheetCsvUrl(CONFIG.POLL_SHEET_ID, CONFIG.POLL_SHEET_GID);
 
 /* ---------- Helper: ফর্ম/পোল ডেটা Apps Script দিয়ে Google Sheet-এ পাঠানো ---------- */

@@ -1,9 +1,9 @@
 /**
  * SSC ব্যাচ ২০১৫ ওয়েবসাইট — শেয়ার্ড ফর্ম হ্যান্ডলার
  * ------------------------------------------------------------
- * এই স্ক্রিপ্টটা friends.html-এর রেজিস্ট্রেশন ফর্ম আর tools.html-এর
- * গ্রুপ পোল — দুটো থেকেই POST রিকোয়েস্ট নিয়ে সংশ্লিষ্ট Google Sheet
- * ট্যাবে একটা নতুন row হিসেবে যোগ করে দেয়।
+ * এই স্ক্রিপ্টটা friends.html-এর রেজিস্ট্রেশন ফর্ম, tools.html-এর
+ * গ্রুপ পোল, আর tools.html-এর ব্যাচ ওয়াল — তিনটা থেকেই POST রিকোয়েস্ট
+ * নিয়ে সংশ্লিষ্ট Google Sheet ট্যাবে একটা নতুন row হিসেবে যোগ করে দেয়।
  *
  * কীভাবে বসাবে:
  * ১) যে Google Sheet-টা Friends ডেটার জন্য ব্যবহার করছো (config.js-এর
@@ -18,6 +18,9 @@
  * ৬) গ্রুপ পোলের জন্য একই স্প্রেডশিটে (অথবা আলাদা একটা শিটে, তাহলে
  *    config.js-এর POLL_SHEET_ID সেই আলাদা শিটের ID বসাও) — স্ক্রিপ্ট নিজে থেকেই
  *    "PollVotes" নামের ট্যাব বানিয়ে নেবে, ম্যানুয়ালি বানানোর দরকার নেই।
+ * ৭) ব্যাচ ওয়ালের (tools.html) জন্যও ঠিক একইভাবে — প্রথম পোস্টের সময়
+ *    স্ক্রিপ্ট নিজে থেকেই "Wall" নামের ট্যাব বানিয়ে নেবে। config.js-এর
+ *    WALL_SHEET_ID/WALL_SHEET_GID-এ সেই ট্যাবের ID/GID বসিয়ে দাও।
  *
  * নিরাপত্তা নোট: এই এন্ডপয়েন্ট পাবলিক (Anyone) — এটা normal, কারণ পাবলিক ফর্ম
  * সাবমিশনের জন্যই এটা দরকার। Friends ডেটা তবুও Status=1 না করা পর্যন্ত
@@ -28,6 +31,7 @@
 const SHEET_SCHEMAS = {
   "Friends": ["Name","Photo","Position","Location","Phone","Email","Facebook","Instagram","Whatsapp","Group","Birthday","Status","Timestamp"],
   "PollVotes": ["Name","Choice","Timestamp"],
+  "Wall": ["Name","Message","Timestamp"],
 };
 
 function doPost(e) {

@@ -696,6 +696,23 @@ footer a{ color: var(--brass-2); }
   padding: .55rem 1.1rem;
 }
 
+/* --- Arcade mini-games (Space Shooter / Bike Racing / Fishing) --- */
+.arcade-card{ text-align:center; }
+.arcade-canvas{
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  aspect-ratio: 360 / 420;
+  display: block;
+  margin: 0 auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--ink);
+  touch-action: none;
+  cursor: pointer;
+}
+.arcade-card .fun-pick-result{ font-size:.8rem; }
+
 /* --- Fun-zone tabs --- */
 .funzone-tabs .nav-link{
   font-family: var(--font-mono);
@@ -809,3 +826,61 @@ footer a{ color: var(--brass-2); }
   background: var(--brass-2);
   transition: width .4s ease;
 }
+
+/* --- Memory Map --- */
+#memoryMapEl{ background: var(--paper-2); }
+#memoryMapEl .leaflet-popup-content-wrapper{
+  background: var(--white);
+  border-radius: 6px;
+  font-family: var(--font-body);
+  color: var(--ink);
+}
+#memoryMapEl .leaflet-popup-tip{ background: var(--white); }
+.memmap-popup{ min-width: 180px; max-width: 240px; }
+.memmap-popup-title{
+  font-weight: 700;
+  font-size: .85rem;
+  margin-bottom: .5rem;
+  padding-bottom: .4rem;
+  border-bottom: 1px dashed var(--line);
+}
+.memmap-popup-title .mono{ font-size: .72rem; color: var(--slate); font-weight:500; }
+.memmap-friend-list{ max-height: 220px; overflow-y: auto; }
+.memmap-friend{
+  display:flex; align-items:center; gap:.5rem;
+  padding: .3rem 0;
+  font-size: .82rem;
+}
+.memmap-friend img{
+  width: 26px; height: 26px; border-radius: 50%;
+  object-fit: cover; flex-shrink: 0;
+  border: 1px solid var(--line);
+}
+.memmap-friend small{ color: var(--slate); }
+
+/* --- Batch Wall (ব্যাচ ওয়াল) --- */
+.wall-composer{
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 1.4rem;
+  margin-bottom: 1.2rem;
+}
+.wall-avatar{
+  width: 44px; height: 44px; border-radius: 50%;
+  object-fit: cover; flex-shrink: 0;
+  border: 1px solid var(--line);
+}
+.wall-post{
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 1.1rem 1.2rem;
+  margin-bottom: .9rem;
+}
+.wall-post.is-new{ border-color: var(--brass-2); box-shadow: 0 0 0 2px rgba(201,161,92,.25); }
+.wall-post-head{ display:flex; align-items:center; gap:.7rem; margin-bottom:.6rem; }
+.wall-post-head .wall-avatar{ width: 38px; height: 38px; }
+.wall-post-name{ font-weight:600; font-size:.92rem; }
+.wall-post-time{ font-family: var(--font-mono); font-size:.68rem; color: var(--slate); }
+.wall-post-msg{ margin:0; color: var(--ink); font-size:.94rem; white-space: pre-line; }

@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -40,6 +41,17 @@
     <a href="#register" class="btn-ink"><i class="bi bi-person-plus me-1"></i> নিজেকে যোগ করো</a>
   </div>
 </header>
+
+<!-- MEMORY MAP -->
+<section id="memorymap">
+  <div class="container">
+    <div class="sec-label">কে এখন কোথায়</div>
+    <h2 class="sec-title">মেমোরি ম্যাপ</h2>
+    <p class="text-secondary mb-4" style="max-width:640px;">রেজিস্ট্রেশনের সময় যে এলাকা লেখা হয়েছিল, তার ভিত্তিতে ব্যাচের সবাই এখন কোথায় ছড়িয়ে আছে সেটা এই ম্যাপে দেখা যাবে। পিনে ক্লিক করলে ওই এলাকার সবার নাম দেখাবে।</p>
+    <div id="memoryMapEl" style="height:440px; border:1px solid var(--line); border-radius:8px; overflow:hidden;"></div>
+    <div id="memoryMapStatus" class="state-msg"><span class="spin"></span> ম্যাপ লোড হচ্ছে...</div>
+  </div>
+</section>
 
 <section class="pt-4">
   <div class="container">
@@ -162,11 +174,13 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="assets/js/config.js"></script>
 <script src="assets/js/csv.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/friends.js"></script>
 <script src="assets/js/birthday.js"></script>
 <script src="assets/js/register.js"></script>
+<script src="assets/js/memorymap.js"></script>
 </body>
 </html>

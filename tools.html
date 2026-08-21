@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>টুলস — SSC ব্যাচ ২০১৫</title>
-<meta name="description" content="নোটিশ বোর্ড, জন্মদিন রিমাইন্ডার, ফান্ড ট্র্যাকার, মেসেজ ওয়াল, বিল-ভাগাভাগি ক্যালকুলেটর, ফান-জোন — ব্যাচের সবার জন্য এক জায়গায়।">
+<meta name="description" content="নোটিশ বোর্ড, জন্মদিন রিমাইন্ডার, ফান্ড ট্র্যাকার, ব্যাচ ওয়াল, বিল-ভাগাভাগি ক্যালকুলেটর, ফান-জোন — ব্যাচের সবার জন্য এক জায়গায়।">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -48,7 +48,7 @@
       <a href="#birthdays"><i class="bi bi-balloon me-1"></i> জন্মদিন</a>
       <a href="#fund"><i class="bi bi-piggy-bank me-1"></i> ফান্ড ট্র্যাকার</a>
       <a href="#split"><i class="bi bi-calculator me-1"></i> বিল ক্যালকুলেটর</a>
-      <a href="#guestbook"><i class="bi bi-chat-square-heart me-1"></i> মেসেজ ওয়াল</a>
+      <a href="#guestbook"><i class="bi bi-chat-square-heart me-1"></i> ব্যাচ ওয়াল</a>
       <a href="#funzone"><i class="bi bi-controller me-1"></i> ফান-জোন</a>
       <a href="#grouppoll"><i class="bi bi-bar-chart-steps me-1"></i> গ্রুপ পোল</a>
       <a href="#community"><i class="bi bi-people me-1"></i> কমিউনিটি</a>
@@ -132,17 +132,31 @@
   </div>
 </section>
 
-<!-- GUESTBOOK -->
+<!-- BATCH WALL -->
 <section id="guestbook">
   <div class="container">
-    <div class="sec-label">০৫ · একে অপরকে একটা লাইন লেখো</div>
-    <h2 class="sec-title">মেসেজ ওয়াল</h2>
+    <div class="sec-label">০৫ · ফেসবুকের মতো, কিন্তু শুধু আমাদের</div>
+    <h2 class="sec-title">ব্যাচ ওয়াল</h2>
+    <p class="text-secondary mb-4" style="max-width:640px;">"আজ হঠাৎ স্কুলের কথা মনে পড়ে গেল ❤️" — যা মনে চায় লিখে ফেলো, সবাই দেখতে পাবে। সরাসরি ব্যাচের Google Sheet-এ জমা হয়, কোনো Google Form লাগে না।</p>
     <div class="row g-4">
-      <div class="col-lg-6">
-        <div id="guestbookForm"><div class="state-msg"><span class="spin"></span> ফর্ম লোড হচ্ছে...</div></div>
+      <div class="col-lg-5">
+        <form id="wallForm" class="wall-composer">
+          <div class="d-flex gap-3 align-items-start">
+            <img id="wallComposerAvatar" class="wall-avatar" src="https://api.dicebear.com/7.x/initials/svg?seed=Friend&backgroundColor=ece2c8" alt="">
+            <div class="flex-fill">
+              <input type="text" id="wallName" name="name" class="form-control mb-2" placeholder="তোমার নাম" required>
+              <textarea id="wallMessage" name="message" class="form-control" rows="3" placeholder="কী মনে পড়ছে? লিখে ফেলো..." required></textarea>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2">
+            <span class="text-secondary small">পোস্ট করলে ব্যাচের সবাই এখানে দেখতে পাবে।</span>
+            <button type="submit" id="wallSubmitBtn" class="btn-ink"><i class="bi bi-send me-1"></i> পোস্ট করো</button>
+          </div>
+          <div class="fun-pick-result mt-3" id="wallStatus" style="display:none;"></div>
+        </form>
       </div>
-      <div class="col-lg-6" style="max-height:560px; overflow-y:auto;">
-        <div id="guestbookList"><div class="state-msg"><span class="spin"></span> মেসেজ লোড হচ্ছে...</div></div>
+      <div class="col-lg-7" style="max-height:620px; overflow-y:auto;">
+        <div id="wallList"><div class="state-msg"><span class="spin"></span> ওয়াল লোড হচ্ছে...</div></div>
       </div>
     </div>
   </div>
@@ -285,6 +299,42 @@
               <div class="d-flex justify-content-between mono small text-secondary mt-2">
                 <span>স্কোর: <span id="quizScore">০</span>/<span id="quizTotal">০</span></span>
                 <button id="quizStart" class="btn-link-mini">শুরু/আবার শুরু</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="split-card arcade-card">
+              <h4 class="h6 mb-2"><i class="bi bi-rocket-takeoff me-1"></i> স্পেস শুটার</h4>
+              <p class="text-secondary small mb-3">মহাকাশে শত্রু ধ্বংস করা — মাউস/আঙুল দিয়ে জাহাজ সরাও, ক্লিক/ট্যাপ বা স্পেসবারে গুলি করো।</p>
+              <canvas id="spaceCanvas" class="arcade-canvas" width="360" height="420"></canvas>
+              <div class="d-flex flex-nowrap justify-content-between align-items-center gap-2 mt-3">
+                <div class="fun-pick-result mb-0 mt-0" id="spaceStatus" style="flex:1; min-width:0;">শুরু করতে বাটনে চাপ দাও</div>
+                <button id="spaceStart" class="btn-ink ttt-reset-btn">শুরু করো</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="split-card arcade-card">
+              <h4 class="h6 mb-2"><i class="bi bi-bicycle me-1"></i> বাইক রেসিং</h4>
+              <p class="text-secondary small mb-3">ছোট রেসিং গেম — ← → বা বাম/ডান পাশে ট্যাপ করে লেন বদলে বাধা এড়িয়ে যাও, যত দূর তত স্কোর।</p>
+              <canvas id="bikeCanvas" class="arcade-canvas" width="360" height="420"></canvas>
+              <div class="d-flex flex-nowrap justify-content-between align-items-center gap-2 mt-3">
+                <div class="fun-pick-result mb-0 mt-0" id="bikeStatus" style="flex:1; min-width:0;">শুরু করতে বাটনে চাপ দাও</div>
+                <button id="bikeStart" class="btn-ink ttt-reset-btn">শুরু করো</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="split-card arcade-card">
+              <h4 class="h6 mb-2"><i class="bi bi-water me-1"></i> ফিশিং গেম</h4>
+              <p class="text-secondary small mb-3">সঠিক সময়ে মাছ ধরতে হবে — কাঁটা যখন সবুজ জোনে থাকবে ঠিক তখনই "ধরো" বাটনে বা স্পেসবারে চাপ দাও।</p>
+              <canvas id="fishCanvas" class="arcade-canvas" width="360" height="420"></canvas>
+              <div class="d-flex flex-nowrap justify-content-between align-items-center gap-2 mt-3">
+                <div class="fun-pick-result mb-0 mt-0" id="fishStatus" style="flex:1; min-width:0;">শুরু করতে বাটনে চাপ দাও</div>
+                <button id="fishStart" class="btn-ink ttt-reset-btn">শুরু করো</button>
               </div>
             </div>
           </div>
@@ -629,9 +679,10 @@
 <script src="assets/js/birthday.js"></script>
 <script src="assets/js/notices.js"></script>
 <script src="assets/js/fund.js"></script>
-<script src="assets/js/guestbook.js"></script>
+<script src="assets/js/wall.js"></script>
 <script src="assets/js/billsplit.js"></script>
 <script src="assets/js/funzone.js"></script>
+<script src="assets/js/arcade.js"></script>
 <script src="assets/js/moretools.js"></script>
 <script src="assets/js/poll.js"></script>
 <script>
