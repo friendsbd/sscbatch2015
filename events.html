@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ইভেন্ট — SSC ব্যাচ ২০১৫</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg reg-nav sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="index.html"><span class="stamp mono">'15</span> SSC ব্যাচ ২০১৫</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" style="border-color:rgba(243,236,218,.4)">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">হোম</a></li>
+        <li class="nav-item"><a class="nav-link" href="friends.html">বন্ধুরা</a></li>
+        <li class="nav-item"><a class="nav-link" href="gallery.html">স্মৃতির গ্যালারি</a></li>
+        <li class="nav-item"><a class="nav-link active" href="events.html">ইভেন্ট</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<header class="hero py-5">
+  <div class="container">
+    <div class="eyebrow"><i class="bi bi-calendar-event"></i> প্রোগ্রাম শিডিউল</div>
+    <h1 style="font-size:clamp(2rem,4.5vw,3.2rem)">পরের দেখা হবে <em>কবে?</em></h1>
+    <p class="lead">প্রতিটা ইভেন্টের বাকি সময় লাইভ গোনা হচ্ছে নিচে। নতুন প্রোগ্রাম যোগ করতে Events Google Sheet-এ একটা সারি বাড়াও।</p>
+  </div>
+</header>
+
+<section class="pt-4">
+  <div class="container">
+    <div class="sec-label">০১ · সময়সূচি</div>
+    <div id="eventsList">
+      <div class="state-msg"><span class="spin"></span> ইভেন্ট লোড হচ্ছে...</div>
+    </div>
+  </div>
+</section>
+
+<section id="broadcastPanel">
+  <div class="container">
+    <div class="sec-label">০২ · এক কমান্ডে সবাইকে জানাও</div>
+    <div class="broadcast-panel">
+      <div class="row g-4">
+        <div class="col-lg-7">
+          <div class="label mb-2">নতুন বার্তা</div>
+          <h2 class="text-white" style="font-size:1.6rem">ব্যাচের সবাইকে একসাথে মেইল করো</h2>
+          <p style="color:rgba(243,236,218,0.7)">নিচে লিখে "সবাইকে পাঠাও" চাপলেই Friends শিটে থাকা প্রত্যেকের ইমেইলে মেসেজ চলে যাবে — একটা একটা করে কাউকে আলাদা মেইল করতে হবে না।</p>
+
+          <div class="mb-3">
+            <select id="eventSelect" class="form-select mb-3"></select>
+            <input type="text" id="bSubject" class="form-control mb-3" placeholder="সাবজেক্ট — যেমন: 📣 রিইউনিয়ন ২০২৬ — তারিখ কনফার্ম">
+            <textarea id="bMessage" class="form-control" rows="5" placeholder="তোমার বার্তা এখানে লেখো..."></textarea>
+          </div>
+
+          <button id="sendBroadcastBtn" class="btn-red"><i class="bi bi-send me-1"></i> সবাইকে পাঠাও</button>
+          <div id="broadcastLog"></div>
+        </div>
+        <div class="col-lg-5">
+          <div class="label mb-2">কীভাবে কাজ করে</div>
+          <ol style="color:rgba(243,236,218,0.75); padding-left:1.1rem; font-size:.92rem;">
+            <li class="mb-2">Friends Google Sheet থেকে যাদের Email কলাম ভরা আছে তাদের বাছাই করা হয়।</li>
+            <li class="mb-2">প্রত্যেকের কাছে EmailJS দিয়ে আলাদা আলাদা মেইল পাঠানো হয় (কোনো সার্ভার লাগে না)।</li>
+            <li class="mb-2">নিচে লাইভ লগে দেখা যাবে কার কাছে গেলো, কার কাছে যায়নি।</li>
+          </ol>
+          <div class="mono" style="font-size:.72rem; color:var(--brass-2); border-top:1px dashed rgba(243,236,218,0.2); padding-top:1rem;">
+            প্রথমবার ব্যবহারের আগে assets/js/config.js এ EMAILJS_* ভ্যালু বসাতে হবে — README.md-এ ধাপে ধাপে লেখা আছে।
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="mt-5">
+  <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
+    <div>© <span id="year"></span> SSC ব্যাচ ২০১৫</div>
+    <div class="d-flex gap-3">
+      <a href="index.html">হোম</a>
+      <a href="friends.html">বন্ধুরা</a>
+      <a href="gallery.html">গ্যালারি</a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/csv.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/friends.js"></script>
+<script src="assets/js/events.js"></script>
+<script src="assets/js/broadcast.js"></script>
+</body>
+</html>

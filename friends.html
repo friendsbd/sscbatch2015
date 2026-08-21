@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>বন্ধুরা — SSC ব্যাচ ২০১৫</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg reg-nav sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="index.html"><span class="stamp mono">'15</span> SSC ব্যাচ ২০১৫</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" style="border-color:rgba(243,236,218,.4)">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">হোম</a></li>
+        <li class="nav-item"><a class="nav-link active" href="friends.html">বন্ধুরা</a></li>
+        <li class="nav-item"><a class="nav-link" href="gallery.html">স্মৃতির গ্যালারি</a></li>
+        <li class="nav-item"><a class="nav-link" href="events.html">ইভেন্ট</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<header class="hero py-5">
+  <div class="container">
+    <div class="eyebrow"><i class="bi bi-people"></i> রেজিস্টার বুক</div>
+    <h1 style="font-size:clamp(2rem,4.5vw,3.2rem)">সবার প্রোফাইল, <em>এক পাতায়</em></h1>
+    <p class="lead">নাম, এলাকা বা পেশা দিয়ে খুঁজো — আর সরাসরি SMS, WhatsApp বা ফেসবুকে মেসেজ পাঠাও।</p>
+  </div>
+</header>
+
+<section class="pt-4">
+  <div class="container">
+    <div class="row g-3 align-items-center mb-4">
+      <div class="col-md-7">
+        <div class="id-search-bar d-flex align-items-center gap-2">
+          <i class="bi bi-search text-secondary"></i>
+          <input type="text" id="searchInput" class="form-control-plaintext w-100" placeholder="নাম, এলাকা বা পেশা লিখে খুঁজো...">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="id-search-bar">
+          <select id="groupFilter" class="form-select-plaintext w-100">
+            <option value="">সব গ্রুপ / শাখা</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-2 text-md-end mono text-secondary small">
+        <span id="resultCount">০</span> / <span id="totalFriends">০</span> জন
+      </div>
+    </div>
+
+    <div class="row g-4" id="friendsGrid">
+      <div class="state-msg col-12"><span class="spin"></span> বন্ধুদের তালিকা লোড হচ্ছে...</div>
+    </div>
+  </div>
+</section>
+
+<footer class="mt-5">
+  <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
+    <div>© <span id="year"></span> SSC ব্যাচ ২০১৫</div>
+    <div class="d-flex gap-3">
+      <a href="index.html">হোম</a>
+      <a href="gallery.html">গ্যালারি</a>
+      <a href="events.html">ইভেন্ট</a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/csv.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/friends.js"></script>
+</body>
+</html>
