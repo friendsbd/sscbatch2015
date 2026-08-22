@@ -44,18 +44,52 @@
   <div class="container">
     <div class="row g-4 mb-4">
       <div class="col-lg-5">
-        <form id="galleryUploadForm" class="wall-composer">
+        <!-- লক করা অবস্থা — PIN দেওয়ার আগে এটা দেখাবে -->
+        <div id="galleryUploadLocked" class="wall-composer text-center">
+          <div class="mb-2 fw-semibold"><i class="bi bi-lock-fill me-1"></i> ছবি যোগ করো</div>
+          <p class="text-secondary small mb-3">স্প্যাম ঠেকাতে এই ফর্মটা PIN দিয়ে লক করা। ব্যাচের PIN জানা থাকলে নিচের বাটনে ক্লিক করো।</p>
+          <button type="button" id="galleryUnlockBtn" class="btn-ink"><i class="bi bi-key-fill me-1"></i> PIN দিয়ে আনলক করো</button>
+        </div>
+
+        <!-- আনলক হওয়া ফর্ম — সঠিক PIN দিলে এটা দেখাবে -->
+        <form id="galleryUploadForm" class="wall-composer" style="display:none;">
           <div class="mb-2 fw-semibold">ছবি যোগ করো</div>
           <input type="text" id="galleryUploadName" name="name" class="form-control mb-2" placeholder="ছবি যোগ করা ব্যাক্তির নাম" required>
-          <input type="url" id="galleryUploadUrl" name="photourl" class="form-control mb-2" placeholder="ছবির লিংক (Google Drive শেয়ার লিংক / imgbb / অন্য কোনো ইমেজ লিংক)" required>
+
+          <label class="form-label small text-secondary mb-1">সরাসরি ছবি আপলোড করো (imgtree.co-তে অটো আপলোড হয়ে যাবে)</label>
+          <input type="file" id="galleryUploadFile" name="file" class="form-control mb-2" accept="image/png,image/jpeg,image/gif,image/webp">
+
+          <div class="text-center text-secondary small my-2">— অথবা —</div>
+
+          <input type="url" id="galleryUploadUrl" name="photourl" class="form-control mb-2" placeholder="আগে থেকে আপলোড করা ছবির লিংক (Google Drive / imgbb / ইত্যাদি)">
           <input type="text" id="galleryUploadCaption" name="caption" class="form-control mb-2" placeholder="ক্যাপশন (ঐচ্ছিক)">
           <input type="text" id="galleryUploadTag" name="tag" class="form-control mb-2" placeholder="ট্যাগ (যেমন: Picnic, Farewell, Reunion — ঐচ্ছিক)">
           <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2">
-            <span class="text-secondary small">Drive-এ ছবি "Anyone with the link" শেয়ার করে লিংকটা এখানে পেস্ট করো।</span>
+            <span class="text-secondary small">উপরে দুটোর যেকোনো একটা দাও — ফাইল আপলোড অথবা লিংক।</span>
             <button type="submit" id="galleryUploadBtn" class="btn-ink"><i class="bi bi-cloud-upload me-1"></i>ছবি যোগ করো</button>
           </div>
           <div class="fun-pick-result mt-3" id="galleryUploadStatus" style="display:none;"></div>
+          <div class="text-secondary small mt-2"><i class="bi bi-info-circle me-1"></i>ছবি জমা হওয়ার পর অ্যাডমিন অ্যাপ্রুভ করলেই সেটা সবাই দেখতে পাবে।</div>
         </form>
+      </div>
+
+      <!-- PIN মডাল -->
+      <div class="modal fade" id="galleryPinModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title"><i class="bi bi-key-fill me-1"></i> PIN দাও</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <input type="password" inputmode="numeric" id="galleryPinInput" class="form-control" placeholder="ব্যাচের PIN">
+              <div class="text-danger small mt-2" id="galleryPinError" style="display:none;">ভুল PIN, আবার চেষ্টা করো।</div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="galleryPinSubmit" class="btn-ink"><i class="bi bi-unlock-fill me-1"></i> আনলক করো</button>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="col-lg-7 d-flex align-items-end justify-content-lg-end">
         <div class="id-search-bar">

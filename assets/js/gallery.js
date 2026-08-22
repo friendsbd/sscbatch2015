@@ -59,6 +59,8 @@ async function loadSheetGalleryImages(){
     const rows = await fetchSheet(GALLERY_CSV_URL);
     return rows
       .filter(r => r.photourl)
+      // ⭐ অ্যাপ্রুভাল গেট — Status কলামে 1 না বসানো পর্যন্ত ছবিটা কারো কাছে দেখাবে না
+      .filter(r => !CONFIG.GALLERY_REQUIRE_APPROVAL || (r.status || "").trim() === "1")
       .reverse() // সর্বশেষ যোগ করা ছবি আগে দেখাবে
       .map(r => ({
         src: resolveImageLink(r.photourl),
@@ -80,6 +82,38 @@ async function initGallery(){
   populateGalleryFilter();
 }
 
+/* Helper: একটা File অবজেক্টকে base64 স্ট্রিং-এ কনভার্ট করে (data: প্রিফিক্স ছাড়া) */
+function fileToBase64(file){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(",")[1] || "");
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+/* ছবি সরাসরি ফাইল আপলোড হলে — Apps Script দিয়ে (PIN + base64 পাঠিয়ে) imgtree.co-তে
+   আপলোড করানো হয়। imgtree.co-এর আসল Bearer API key শুধু Apps Script Properties-এ
+   থাকে, কখনো ব্রাউজারে বা Sheet-এ আসে না। */
+async function uploadImageViaScript({ file, pin, name, caption, tag }){
+  const base64 = await fileToBase64(file);
+  const body = new URLSearchParams({
+    action: "uploadImage",
+    pin,
+    name,
+    caption,
+    tag,
+    filename: file.name || "photo.jpg",
+    contentType: file.type || "image/jpeg",
+    file_base64: base64,
+  });
+  // এখানে ইচ্ছাকৃতভাবে no-cors ব্যবহার করা হচ্ছে না — কারণ imgtree.co-এর আসল
+  // URL/success ব্রাউজারে ফেরত দরকার। x-www-form-urlencoded body হওয়ায়
+  // এটা "simple request" (কোনো preflight লাগে না)।
+  const res = await fetch(CONFIG.SUBMIT_SCRIPT_URL, { method: "POST", body });
+  return res.json(); // { status: "ok", url } অথবা { status: "error", message }
+}
+
 /* বন্ধুরা নিজে ছবি যোগ করার ফর্ম — wall.html-এর ফর্মের মতোই সরাসরি Sheet-এ লেখে */
 function initGalleryUploadForm(){
   const form = document.getElementById("galleryUploadForm");
@@ -87,6 +121,7 @@ function initGalleryUploadForm(){
 
   const statusEl = document.getElementById("galleryUploadStatus");
   const submitBtn = document.getElementById("galleryUploadBtn");
+  const fileInput = document.getElementById("galleryUploadFile");
 
   function showStatus(msg, isError){
     statusEl.style.display = "block";
@@ -98,12 +133,17 @@ function initGalleryUploadForm(){
     e.preventDefault();
     const data = Object.fromEntries(new FormData(form).entries());
     data.name = (data.name || "").trim();
-    data.photourl = (data.photourl || data.photoUrl || "").trim();
+    data.photourl = (data.photourl || "").trim();
     data.caption = (data.caption || "").trim();
     data.tag = (data.tag || "").trim();
+    const file = fileInput?.files?.[0] || null;
 
-    if (!data.name || !data.photourl){
-      showStatus("নাম আর ছবির লিংক — দুটোই লাগবে।", true);
+    if (!data.name){
+      showStatus("নাম দিতে হবে।", true);
+      return;
+    }
+    if (!file && !data.photourl){
+      showStatus("একটা ছবি ফাইল বাছো, অথবা ছবির লিংক পেস্ট করো।", true);
       return;
     }
 
@@ -111,29 +151,43 @@ function initGalleryUploadForm(){
     submitBtn.innerHTML = `<span class="spin"></span> যোগ হচ্ছে...`;
 
     try{
-      // Apps Script header case-insensitive ম্যাচ করে, তাই "PhotoUrl" কী নামে পাঠানো হচ্ছে
-      await submitToSheet("Gallery", {
-        Name: data.name,
-        PhotoUrl: data.photourl,
-        Caption: data.caption,
-        Tag: data.tag,
-      });
+      let finalUrl;
+
+      if (file){
+        const pin = sessionStorage.getItem("galleryPin") || "";
+        const result = await uploadImageViaScript({
+          file, pin, name: data.name, caption: data.caption, tag: data.tag,
+        });
+        if (result.status !== "ok" || !result.url){
+          throw new Error(result.message || "আপলোড ব্যর্থ হয়েছে।");
+        }
+        finalUrl = result.url;
+        // handleImageUpload (Apps Script) নিজে থেকেই Gallery Sheet-এ row লিখে ফেলেছে,
+        // এখানে আলাদা করে submitToSheet কল করার দরকার নেই।
+      } else {
+        // Apps Script header case-insensitive ম্যাচ করে, তাই "PhotoUrl" কী নামে পাঠানো হচ্ছে
+        await submitToSheet("Gallery", {
+          Name: data.name,
+          PhotoUrl: data.photourl,
+          Caption: data.caption,
+          Tag: data.tag,
+        });
+        finalUrl = resolveImageLink(data.photourl);
+      }
 
       // অপটিমিস্টিক আপডেট — রিফ্রেশ ছাড়াই নতুন ছবিটা সাথে সাথে গ্যালারির উপরে দেখানো হয়
-      const newItem = {
-        src: resolveImageLink(data.photourl),
-        caption: data.caption || data.name,
-        tag: data.tag,
-      };
+      // (এটা শুধু তোমার নিজের ব্রাউজারে দেখাবে যতক্ষণ না অ্যাডমিন Status=1 করে; অন্য কেউ
+      // পেজ রিফ্রেশ করলে এখনো দেখবে না)
+      const newItem = { src: finalUrl, caption: data.caption || data.name, tag: data.tag };
       GALLERY_ALL = [newItem, ...GALLERY_ALL];
       renderGallery(GALLERY_ALL);
       populateGalleryFilter();
 
       form.reset();
-      showStatus(`🎉 ছবি যোগ হয়ে গেছে, ধন্যবাদ <b>${data.name}</b>!`, false);
+      showStatus(`🎉 ছবি যোগ হয়ে গেছে, ধন্যবাদ <b>${data.name}</b>! অ্যাডমিন অ্যাপ্রুভ করলে এটা সবাই দেখতে পাবে।`, false);
     }catch(err){
       console.error(err);
-      showStatus("দুঃখিত, ছবি যোগ করা যায়নি। একটু পর আবার চেষ্টা করো।", true);
+      showStatus(err.message || "দুঃখিত, ছবি যোগ করা যায়নি। একটু পর আবার চেষ্টা করো।", true);
     }finally{
       submitBtn.disabled = false;
       submitBtn.innerHTML = `<i class="bi bi-cloud-upload me-1"></i> ছবি যোগ করো`;
@@ -141,7 +195,70 @@ function initGalleryUploadForm(){
   });
 }
 
+/* ছবি যোগ করার ফর্ম PIN দিয়ে লক — Auth শিটের "PIN" কলামে যেসব PIN আছে তার
+   যেকোনো একটা মিললেই ফর্ম আনলক হয়ে যায়। এটা কড়া কোনো সিকিউরিটি না (শিটটা
+   পাবলিকলি রিডেবল), স্রেফ র‍্যান্ডম মানুষ এসে স্প্যাম করা আটকানোর জন্য একটা
+   হালকা গেট — অনেকটা বন্ধুদের মধ্যে শেয়ার করা একটা কোডের মতো। */
+function initGalleryPinGate(){
+  const lockedBox   = document.getElementById("galleryUploadLocked");
+  const form        = document.getElementById("galleryUploadForm");
+  const unlockBtn   = document.getElementById("galleryUnlockBtn");
+  const pinInput    = document.getElementById("galleryPinInput");
+  const pinSubmit   = document.getElementById("galleryPinSubmit");
+  const pinError    = document.getElementById("galleryPinError");
+  const modalEl     = document.getElementById("galleryPinModal");
+  if (!lockedBox || !form || !modalEl) return;
+
+  const modal = new bootstrap.Modal(modalEl);
+
+  function unlock(pinValue){
+    lockedBox.style.display = "none";
+    form.style.display = "block";
+    sessionStorage.setItem("galleryPinOk", "1"); // একই ব্রাউজার সেশনে বারবার PIN চাইবে না
+    if (pinValue) sessionStorage.setItem("galleryPin", pinValue); // আপলোড রিকোয়েস্টে পাঠানোর জন্য লাগবে
+  }
+
+  // আগেই এই সেশনে আনলক করা থাকলে সরাসরি ফর্ম দেখাও
+  if (sessionStorage.getItem("galleryPinOk") === "1") unlock();
+
+  unlockBtn?.addEventListener("click", () => {
+    pinError.style.display = "none";
+    pinInput.value = "";
+    modal.show();
+    setTimeout(() => pinInput.focus(), 300);
+  });
+
+  async function checkPin(){
+    const entered = (pinInput.value || "").trim();
+    if (!entered) return;
+    pinSubmit.disabled = true;
+    pinSubmit.innerHTML = `<span class="spin"></span> চেক হচ্ছে...`;
+    try{
+      const rows = await fetchSheet(AUTH_CSV_URL);
+      const validPins = rows.map(r => (r.pin || "").trim()).filter(Boolean);
+      if (validPins.includes(entered)){
+        modal.hide();
+        unlock(entered);
+      } else {
+        pinError.textContent = "ভুল PIN, আবার চেষ্টা করো।";
+        pinError.style.display = "block";
+      }
+    }catch(e){
+      console.error(e);
+      pinError.textContent = "PIN যাচাই করা যায়নি — একটু পর আবার চেষ্টা করো।";
+      pinError.style.display = "block";
+    }finally{
+      pinSubmit.disabled = false;
+      pinSubmit.innerHTML = `<i class="bi bi-unlock-fill me-1"></i> আনলক করো`;
+    }
+  }
+
+  pinSubmit?.addEventListener("click", checkPin);
+  pinInput?.addEventListener("keydown", (e) => { if (e.key === "Enter"){ e.preventDefault(); checkPin(); } });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   initGallery();
   initGalleryUploadForm();
+  initGalleryPinGate();
 });

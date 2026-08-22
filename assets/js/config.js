@@ -29,6 +29,21 @@ const CONFIG = {
   // "Gallery" ট্যাবে ক্লিক করে URL-এর #gid=... নাম্বারটা নিচে বসাও (WALL_SHEET_GID-এর মতোই)।
   GALLERY_SHEET_ID: "1BxwiMfOgb4UwEwr8-T41C8OL-os54ex6UsCBSGtYolw",
   GALLERY_SHEET_GID: "598944864", // প্রথম সাবমিশনের পর আসল GID বসাও
+  // ⚠️ Gallery Sheet-এও একটা "Status" কলাম থাকতে হবে (Friends Sheet-এর মতোই)।
+  // নতুন সাবমিশনে Status খালি থাকবে -> গ্যালারিতে দেখাবে না। Sheet-এ গিয়ে
+  // Status কলামে 1 বসালে তবেই ছবিটা সবাই দেখতে পাবে। (নিচে GALLERY_REQUIRE_APPROVAL দেখো)
+  GALLERY_REQUIRE_APPROVAL: true,
+
+  // ---------- 3.2) গ্যালারি PIN গেট (ঐচ্ছিক) ----------
+  // "ছবি যোগ করো" ফর্মটা এখন একটা PIN দিয়ে লক করা থাকে, যাতে যে কেউ এসে
+  // স্প্যাম না করতে পারে। PIN গুলো এই স্প্রেডশিটেরই একটা "Auth" নামের ট্যাবে
+  // রাখো, কলাম নাম "PIN" (একটা কলামে একাধিক রো — প্রতিটা রো একটা করে বৈধ PIN)।
+  // ⚠️ এই স্প্রেডশিটটা "Anyone with the link -> Viewer" হিসেবে শেয়ার করা, তাই
+  // এখানে রাখা PIN কোনো real security না — এটা শুধু "না বুঝেই র‍্যান্ডম কেউ যোগ
+  // করে ফেলল" এটা আটকানোর জন্য একটা soft gate। কখনোই কোনো ইমেইল/পাসওয়ার্ড এই
+  // শিটে রেখো না — নিচের নোট দেখো কেন।
+  AUTH_SHEET_ID: "1BxwiMfOgb4UwEwr8-T41C8OL-os54ex6UsCBSGtYolw",
+  AUTH_SHEET_GID: "1455921031",
 
   // ---------- 3.1) GITHUB IMAGE BASE ----------
   // তোমার GitHub রিপোর সব ছবি যে ফোল্ডারে রাখবে তার raw base URL।
@@ -84,7 +99,7 @@ const CONFIG = {
   // ---------- 11) SUBMIT SCRIPT (Google Apps Script Web App) ----------
   // friends.html-এর রেজিস্ট্রেশন ফর্ম আর গ্রুপ পোল — দুটোই এই এক URL দিয়ে
   // সরাসরি Google Sheet-এ ডেটা লেখে। কীভাবে বানাবে সেটা google-apps-script/README.md-এ লেখা আছে।
-  SUBMIT_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbz50Bl4tL7E0IDb2sdx_OL5MbJzQgfgfSbAqrZEB0Np1DmL5ql_iLmmqfskOA1OsdN9/exec",
+  SUBMIT_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbxrzlBNl0P5jl6rJPRvzz8n93Xs4Lu7NxlMNGTl521NVrQIVJOdA39ztSAhh6WBF7w/exec",
 
   // ---------- 12) গ্রুপ পোল (tools.html) ----------
   // প্রশ্ন আর অপশন এখানে বদলাও — যত খুশি অপশন দিতে পারো
@@ -109,6 +124,7 @@ const FUND_CSV_URL      = sheetCsvUrl(CONFIG.FUND_SHEET_ID, CONFIG.FUND_SHEET_GI
 const WALL_CSV_URL      = sheetCsvUrl(CONFIG.WALL_SHEET_ID, CONFIG.WALL_SHEET_GID);
 const POLL_CSV_URL      = sheetCsvUrl(CONFIG.POLL_SHEET_ID, CONFIG.POLL_SHEET_GID);
 const GALLERY_CSV_URL   = sheetCsvUrl(CONFIG.GALLERY_SHEET_ID, CONFIG.GALLERY_SHEET_GID);
+const AUTH_CSV_URL      = sheetCsvUrl(CONFIG.AUTH_SHEET_ID, CONFIG.AUTH_SHEET_GID);
 
 /* ---------- Helper: ফর্ম/পোল ডেটা Apps Script দিয়ে Google Sheet-এ পাঠানো ---------- */
 // sheetName = Apps Script-এর মধ্যে কোন ট্যাবে row যোগ হবে ("Friends", "PollVotes" ইত্যাদি)
