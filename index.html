@@ -118,6 +118,11 @@
 <script src="assets/js/friends.js"></script>
 <script src="assets/js/birthday.js"></script>
 <script>
+function isEventApproved(v){
+  const s = (v || "").toString().trim().toLowerCase();
+  return s === "1" || s === "yes" || s === "true" || s === "approved";
+}
+
 async function loadHomeStats(){
   try{
     const rows = await fetchSheet(FRIENDS_CSV_URL);
@@ -131,11 +136,11 @@ async function loadNextEventPreview(){
   const box = document.getElementById("homeEventPreview");
   try{
     const rows = await fetchSheet(EVENTS_CSV_URL);
-    const events = rows.filter(r => r.eventname);
+    const events = rows.filter(r => r.eventname && isEventApproved(r.status));
     const withDate = events.map(e => ({...e, _d: (function(){ const t=(e.time&&e.time.trim())||"10:00"; const d=new Date(`${e.date}T${t}:00`); return isNaN(d)?null:d; })() }));
     const upcoming = withDate.filter(e => e._d && e._d >= new Date()).sort((a,b)=>a._d-b._d);
     if (!upcoming.length){
-      box.innerHTML = `<div class="state-msg">এই মুহূর্তে কোনো আসন্ন ইভেন্ট নেই। events.html থেকে যোগ করো।</div>`;
+      box.innerHTML = `<div class="state-msg">এই মুহূর্তে কোনো আসন্ন ইভেন্ট নেই।</div>`;
       return;
     }
     const ev = upcoming[0];

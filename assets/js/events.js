@@ -2,11 +2,19 @@
    EVENTS PAGE
    Expected Google Sheet columns:
    EventName | Date (YYYY-MM-DD) | Time (HH:MM, 24hr) | Venue |
-   Description | CoverImage
+   Description | CoverImage | Status
+
+   Status কলাম = দেখানোর গেট। যে row-তে Status কলামে "1" বসাবে (ম্যানুয়ালি),
+   শুধু সেই ইভেন্টটাই সাইটে দেখাবে — বাকিগুলো Sheet-এ থাকলেও লুকানো থাকবে।
    ========================================================= */
 
 let ALL_EVENTS = [];
 let countdownTimers = [];
+
+function isEventApproved(v){
+  const s = (v || "").toString().trim().toLowerCase();
+  return s === "1" || s === "yes" || s === "true" || s === "approved";
+}
 
 function parseEventDate(dateStr, timeStr){
   if(!dateStr) return null;
@@ -105,7 +113,7 @@ async function initEvents(){
   const wrap = document.getElementById("eventsList");
   try{
     const rows = await fetchSheet(EVENTS_CSV_URL);
-    ALL_EVENTS = rows.filter(r => r.eventname);
+    ALL_EVENTS = rows.filter(r => r.eventname && isEventApproved(r.status));
     renderEvents(ALL_EVENTS);
   }catch(err){
     console.error(err);
