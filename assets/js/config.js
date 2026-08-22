@@ -10,7 +10,7 @@ const CONFIG = {
   // URL থেকে SHEET_ID কপি করো: https://docs.google.com/spreadsheets/d/[[এইটুকু]]/edit
   // GID = নিচের ট্যাব বার-এ ওই sheet tab এ ক্লিক করলে URL এর শেষে #gid=123456 — ওই নাম্বারটা
   // ⚠️ এই sheet-এ একটা "Status" কলাম থাকতে হবে — যে রো-তে Status = 1 করবে, শুধু সেই বন্ধুর প্রোফাইল সাইটে দেখাবে
-  FRIENDS_SHEET_ID: "PASTE_FRIENDS_SHEET_ID_HERE",
+  FRIENDS_SHEET_ID: "1BxwiMfOgb4UwEwr8-T41C8OL-os54ex6UsCBSGtYolw",
   FRIENDS_SHEET_GID: "0",
 
   // FRIENDS_REGISTER_FORM_EMBED_URL: (ঐচ্ছিক / আর ব্যবহার হয় না)
@@ -19,8 +19,8 @@ const CONFIG = {
   FRIENDS_REGISTER_FORM_EMBED_URL: "",
 
   // ---------- 2) EVENTS GOOGLE SHEET ----------
-  EVENTS_SHEET_ID: "PASTE_EVENTS_SHEET_ID_HERE",
-  EVENTS_SHEET_GID: "0",
+  EVENTS_SHEET_ID: "1BxwiMfOgb4UwEwr8-T41C8OL-os54ex6UsCBSGtYolw",
+  EVENTS_SHEET_GID: "1742796814",
 
   // ---------- 3) GITHUB IMAGE BASE ----------
   // তোমার GitHub রিপোর সব ছবি যে ফোল্ডারে রাখবে তার raw base URL।
@@ -43,13 +43,13 @@ const CONFIG = {
 
   // ---------- 6) NOTICE BOARD SHEET (ঐচ্ছিক টুল) ----------
   // কলাম: Title | Message | Date | Pinned (yes/no খালি রাখলে চলবে)
-  NOTICES_SHEET_ID: "PASTE_NOTICES_SHEET_ID_HERE",
-  NOTICES_SHEET_GID: "0",
+  NOTICES_SHEET_ID: "1BxwiMfOgb4UwEwr8-T41C8OL-os54ex6UsCBSGtYolw",
+  NOTICES_SHEET_GID: "114438715",
 
   // ---------- 7) ফান্ড ট্র্যাকার SHEET (ঐচ্ছিক টুল) ----------
   // কলাম: Name | Amount | Note | Date
-  FUND_SHEET_ID: "PASTE_FUND_SHEET_ID_HERE",
-  FUND_SHEET_GID: "0",
+  FUND_SHEET_ID: "1BxwiMfOgb4UwEwr8-T41C8OL-os54ex6UsCBSGtYolw",
+  FUND_SHEET_GID: "86209502",
   FUND_GOAL: 50000, // টার্গেট এমাউন্ট (টাকা) — প্রগ্রেস বার এই সংখ্যা অনুযায়ী দেখাবে
   FUND_INFO: "ব্যাচ রিইউনিয়ন, বিপদে-আপদে বন্ধুর পাশে দাঁড়ানো আর ছোটখাটো ব্যাচ-খরচের জন্য এই ফান্ড। কে কত দিয়েছে সেটা শুধু এখানে হিসাব হিসেবে দেখানো হয় — টাকা পাঠানো হয় bKash/Nagad/হাতে হাতে, নিজেদের মধ্যে; ওয়েবসাইট শুধু স্বচ্ছতার জন্য হিসাবটা সবাইকে দেখায়।", // ফান্ড সেকশনের উপরে এই লেখাটা দেখাবে, চাইলে বদলে নাও
 
@@ -60,8 +60,8 @@ const CONFIG = {
   // ওয়াল পড়ার জন্য ওই ট্যাবের Sheet ID/GID এখানে বসাও — Friends Sheet-এর মতোই একই স্প্রেডশিটে
   // থাকবে (যেটাতে Apps Script ডিপ্লয় করেছো), শুধু ট্যাব বদলাবে। প্রথমবার কেউ পোস্ট করার পর
   // Sheet-এ গিয়ে "Wall" ট্যাবে ক্লিক করে URL-এর #gid=... নাম্বারটা এখানে বসাও (PollVotes-এর মতোই)।
-  WALL_SHEET_ID: "PASTE_WALL_SHEET_ID_HERE",
-  WALL_SHEET_GID: "0",
+  WALL_SHEET_ID: "1BxwiMfOgb4UwEwr8-T41C8OL-os54ex6UsCBSGtYolw",
+  WALL_SHEET_GID: "400146208",
 
   // ---------- 9) কমিউনিটি লিংক (ঐচ্ছিক) ----------
   WHATSAPP_GROUP_URL: "", // যেমন: https://chat.whatsapp.com/xxxxxxx
@@ -76,15 +76,15 @@ const CONFIG = {
   // ---------- 11) SUBMIT SCRIPT (Google Apps Script Web App) ----------
   // friends.html-এর রেজিস্ট্রেশন ফর্ম আর গ্রুপ পোল — দুটোই এই এক URL দিয়ে
   // সরাসরি Google Sheet-এ ডেটা লেখে। কীভাবে বানাবে সেটা google-apps-script/README.md-এ লেখা আছে।
-  SUBMIT_SCRIPT_URL: "PASTE_APPS_SCRIPT_WEB_APP_URL_HERE",
+  SUBMIT_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbz50Bl4tL7E0IDb2sdx_OL5MbJzQgfgfSbAqrZEB0Np1DmL5ql_iLmmqfskOA1OsdN9/exec",
 
   // ---------- 12) গ্রুপ পোল (tools.html) ----------
   // প্রশ্ন আর অপশন এখানে বদলাও — যত খুশি অপশন দিতে পারো
   POLL_QUESTION: "এবারের রিইউনিয়ন কোথায় হওয়া উচিত?",
   POLL_OPTIONS: ["স্কুল ক্যাম্পাসে", "রিসোর্টে", "কারো বাসায়/ছাদে", "রেস্টুরেন্টে"],
   // ভোটগুলো যে শিটে জমা হবে তার ID/GID (Apps Script এই শিটেই "PollVotes" নামের ট্যাবে লিখবে)
-  POLL_SHEET_ID: "PASTE_POLL_SHEET_ID_HERE",
-  POLL_SHEET_GID: "0",
+  POLL_SHEET_ID: "1BxwiMfOgb4UwEwr8-T41C8OL-os54ex6UsCBSGtYolw",
+  POLL_SHEET_GID: "675489945",
 };
 
 
