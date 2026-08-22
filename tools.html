@@ -6,11 +6,15 @@
 <title>টুলস — SSC ব্যাচ ২০১৫</title>
 <meta name="description" content="নোটিশ বোর্ড, জন্মদিন রিমাইন্ডার, ফান্ড ট্র্যাকার, ব্যাচ ওয়াল, বিল-ভাগাভাগি ক্যালকুলেটর, ফান-জোন — ব্যাচের সবার জন্য এক জায়গায়।">
 <script>
-  // Some browsers try to "restore" the last scroll position (or nudge the
-  // page down) when this page is (re)loaded. We don't want that — tools.html
-  // should always open at the very top unless the URL has a real #hash.
+  // Any full page load (reload, refresh, or arriving from another page)
+  // should land on the "নোটিশ বোর্ড" section by default — see the script
+  // near the end of the page for how the landing spot is chosen. Strip any
+  // leftover #hash immediately so the browser's own native fragment-scroll
+  // never fires and fights with that.
+  if (location.hash) {
+    history.replaceState(null, "", location.pathname + location.search);
+  }
   if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-  if (!location.hash) window.scrollTo(0, 0);
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -145,7 +149,7 @@
   <div class="container">
     <div class="sec-label">০৫ · ফেসবুকের মতো, কিন্তু শুধু আমাদের</div>
     <h2 class="sec-title">ব্যাচ ওয়াল</h2>
-    <p class="text-secondary mb-4" style="max-width:640px;">"আজ হঠাৎ স্কুলের কথা মনে পড়ে গেল ❤️" — যা মনে চায় লিখে ফেলো, সবাই দেখতে পাবে। সরাসরি ব্যাচের Google Sheet-এ জমা হয়, কোনো Google Form লাগে না।</p>
+    <p class="text-secondary mb-4" style="max-width:640px;">"আজ হঠাৎ স্কুলের কথা মনে পড়ে গেল ❤️" — যা মনে চায় লিখে ফেলো, সবাই দেখতে পাবে।</p>
     <div class="row g-4">
       <div class="col-lg-5">
         <form id="wallForm" class="wall-composer">
@@ -704,6 +708,7 @@
   // Sticky tool-nav: match sticky offset to the real navbar height, and
   // flag when the bar is actually stuck (for the shadow/border) — works
   // the same way on mobile and desktop.
+  const pillLinks = Array.from(document.querySelectorAll(".tool-nav-pill a"));
   (function initStickyToolNav(){
     const navEl = document.querySelector(".reg-nav");
     const sentinel = document.getElementById("toolNavSentinel");
@@ -729,8 +734,55 @@
     }
   })();
 
+  // Default landing section: every full page load (reload / refresh /
+  // arriving from another page's "টুলস" link) should land on "নোটিশ বোর্ড",
+  // not the hero. Jump instantly (no smooth animation) so it doesn't look
+  // like a scroll-jump on load, and skip it entirely if the user has
+  // already started scrolling on their own by the time it would fire.
+  let userScrolled = false;
+  ["wheel", "touchstart", "keydown"].forEach(evt =>
+    window.addEventListener(evt, () => { userScrolled = true; }, { passive: true, once: true })
+  );
+
+  function stickyOffset(){
+    const navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--navH")) || 62;
+    const toolNavH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--toolNavH")) || 64;
+    return navH + toolNavH + 16;
+  }
+  function goToDefaultSection(){
+    if (userScrolled) return;
+    const target = document.getElementById("notices");
+    if (!target) return;
+    const y = target.getBoundingClientRect().top + window.scrollY - stickyOffset();
+    window.scrollTo({ top: Math.max(y, 0), left: 0, behavior: "auto" });
+  }
+  window.addEventListener("load", goToDefaultSection);
+  setTimeout(goToDefaultSection, 300);
+  setTimeout(goToDefaultSection, 1000);
+
+  // Scrollspy: highlight whichever pill matches the section currently in
+  // view, defaulting to "নোটিশ বোর্ড" until the user scrolls elsewhere.
+  (function initScrollspy(){
+    const sections = pillLinks
+      .map(a => document.getElementById(a.getAttribute("href").slice(1)))
+      .filter(Boolean);
+    if (!sections.length) return;
+
+    const setActive = (id) => {
+      pillLinks.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + id));
+    };
+    setActive("notices");
+
+    if (!("IntersectionObserver" in window)) return;
+    const obs = new IntersectionObserver((entries) => {
+      const visible = entries.filter(e => e.isIntersecting);
+      if (visible.length) setActive(visible[0].target.id);
+    }, { rootMargin: `-${64}px 0px -70% 0px`, threshold: 0 });
+    sections.forEach(sec => obs.observe(sec));
+  })();
+
   document.addEventListener("DOMContentLoaded", () => {
-    if (!location.hash) window.scrollTo(0, 0);
+    goToDefaultSection();
 
     const grid = document.getElementById("communityGrid");
     const btns = [

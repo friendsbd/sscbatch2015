@@ -61,7 +61,7 @@ const CONFIG = {
   // থাকবে (যেটাতে Apps Script ডিপ্লয় করেছো), শুধু ট্যাব বদলাবে। প্রথমবার কেউ পোস্ট করার পর
   // Sheet-এ গিয়ে "Wall" ট্যাবে ক্লিক করে URL-এর #gid=... নাম্বারটা এখানে বসাও (PollVotes-এর মতোই)।
   WALL_SHEET_ID: "1BxwiMfOgb4UwEwr8-T41C8OL-os54ex6UsCBSGtYolw",
-  WALL_SHEET_GID: "400146208",
+  WALL_SHEET_GID: "646983352",
 
   // ---------- 9) কমিউনিটি লিংক (ঐচ্ছিক) ----------
   WHATSAPP_GROUP_URL: "", // যেমন: https://chat.whatsapp.com/xxxxxxx

@@ -533,6 +533,12 @@ footer a{ color: var(--brass-2); }
   transition: all .15s ease;
 }
 .tool-nav-pill a:hover{ background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.tool-nav-pill a.active{
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.tool-nav-pill a.active i{ color: var(--brass-2); }
 
 /* --- Birthday banner (sitewide) --- */
 #birthdayBanner{

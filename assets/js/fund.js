@@ -1,7 +1,8 @@
 /* =========================================================
    FUND ট্র্যাকার টুল
-   Fund Google Sheet কলাম: Name | Amount | Note | Date
-   টাকা সংগ্রহের অগ্রগতি + কন্ট্রিবিউটরদের তালিকা দেখায়
+   Fund Google Sheet কলাম: Name | Amount | Note | Date | Status
+   শুধু Status = 1 (approved) থাকা রো-গুলোই টাকা সংগ্রহের অগ্রগতি +
+   কন্ট্রিবিউটর লিস্টে দেখানো হয় — Status ফাঁকা বা অন্য কিছু হলে বাদ যায়।
    (এটা read-only — কেউ সরাসরি টাকা পাঠাতে পারবে না, শুধু হিসাব দেখা যাবে)
    ========================================================= */
 
@@ -26,7 +27,7 @@ async function initFundTracker(){
 
   try{
     const rows = await fetchSheet(FUND_CSV_URL);
-    const contribs = rows.filter(r => r.name && r.amount);
+    const contribs = rows.filter(r => r.name && r.amount && String(r.status || "").trim() === "1");
     const total = contribs.reduce((sum, c) => sum + (parseFloat(c.amount) || 0), 0);
     const goal = CONFIG.FUND_GOAL || 0;
     const pct = goal ? Math.min(100, Math.round((total / goal) * 100)) : 0;
