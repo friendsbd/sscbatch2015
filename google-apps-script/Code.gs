@@ -3,24 +3,17 @@
  * ------------------------------------------------------------
  * এই স্ক্রিপ্টটা friends.html-এর রেজিস্ট্রেশন ফর্ম, tools.html-এর
  * গ্রুপ পোল, আর tools.html-এর ব্যাচ ওয়াল — তিনটা থেকেই POST রিকোয়েস্ট
- * নিয়ে সংশ্লিষ্ট Google Sheet ট্যাবে একটা নতুন row হিসেবে যোগ করে দেয়।
+ * নিয়ে সংশ্লিষ্ট Google Sheet ট্যাবে row যোগ/আপডেট করে।
  *
  * কীভাবে বসাবে:
  * ১) যে Google Sheet-টা Friends ডেটার জন্য ব্যবহার করছো (config.js-এর
  *    FRIENDS_SHEET_ID), সেটা খোলো।
  * ২) মেনু থেকে Extensions → Apps Script খোলো।
  * ৩) ডিফল্ট কোড মুছে এই পুরো ফাইলটা পেস্ট করো, সেভ করো।
- * ৪) Deploy → New deployment → টাইপ বেছে নাও "Web app"।
- *    - Execute as: Me
- *    - Who has access: Anyone
- *    Deploy করো, আর অনুমতি চাইলে অনুমোদন দাও।
- * ৫) যে Web app URL পাবে সেটা assets/js/config.js-এর SUBMIT_SCRIPT_URL-এ বসাও।
- * ৬) গ্রুপ পোলের জন্য একই স্প্রেডশিটে (অথবা আলাদা একটা শিটে, তাহলে
- *    config.js-এর POLL_SHEET_ID সেই আলাদা শিটের ID বসাও) — স্ক্রিপ্ট নিজে থেকেই
- *    "PollVotes" নামের ট্যাব বানিয়ে নেবে, ম্যানুয়ালি বানানোর দরকার নেই।
- * ৭) ব্যাচ ওয়ালের (tools.html) জন্যও ঠিক একইভাবে — প্রথম পোস্টের সময়
- *    স্ক্রিপ্ট নিজে থেকেই "Wall" নামের ট্যাব বানিয়ে নেবে। config.js-এর
- *    WALL_SHEET_ID/WALL_SHEET_GID-এ সেই ট্যাবের ID/GID বসিয়ে দাও।
+ * ৪) Deploy → Manage deployments → পুরনো deployment-এর পাশে ✏️ (Edit) আইকনে
+ *    ক্লিক করো → Version → "New version" সিলেক্ট করে "Deploy" করো।
+ *    (এটা করলে আগের SUBMIT_SCRIPT_URL অপরিবর্তিত থাকবে, নতুন করে config.js
+ *    বদলাতে হবে না। একদম নতুন deployment বানালে URL বদলে যাবে।)
  *
  * নিরাপত্তা নোট: এই এন্ডপয়েন্ট পাবলিক (Anyone) — এটা normal, কারণ পাবলিক ফর্ম
  * সাবমিশনের জন্যই এটা দরকার। Friends ডেটা তবুও Status=1 না করা পর্যন্ত
@@ -32,7 +25,13 @@ const SHEET_SCHEMAS = {
   "Friends": ["Name","Photo","Position","Location","Phone","Email","Facebook","Instagram","Whatsapp","Group","Birthday","Status","Timestamp"],
   "PollVotes": ["Name","Choice","Timestamp"],
   "Wall": ["Name","Message","Timestamp"],
+  "Gallery": ["Name","PhotoUrl","Caption","Tag","Timestamp"],
 };
+
+// এই ট্যাবগুলোতে "Name" কলাম অনুযায়ী ইউনিক রাখা হবে — একই নামে দ্বিতীয়বার
+// সাবমিট করলে নতুন row যোগ না হয়ে আগের row-টাই আপডেট (ওভাররাইট) হয়ে যাবে।
+// এভাবে কেউ ভোট পরিবর্তন করলে Sheet-এ ডুপ্লিকেট row জমা হয় না।
+const UNIQUE_BY_NAME_SHEETS = ["PollVotes"];
 
 function doPost(e) {
   try {
@@ -62,8 +61,29 @@ function doPost(e) {
       return matchKey ? params[matchKey] : "";
     });
 
+    // "Name" কলাম অনুযায়ী ইউনিক রাখতে হয় এমন শিট হলে, আগে থেকে একই নামে
+    // (case-insensitive) কোনো row থাকলে সেটা খুঁজে বের করে আপডেট করি — নতুন row না।
+    if (UNIQUE_BY_NAME_SHEETS.indexOf(sheetName) !== -1) {
+      const nameColIdx = headerRow.findIndex(h => (h || "").toString().trim().toLowerCase() === "name");
+      if (nameColIdx !== -1 && params.name) {
+        const newName = params.name.toString().trim().toLowerCase();
+        const lastRow = sheet.getLastRow();
+        if (lastRow >= 2) {
+          const existingNames = sheet.getRange(2, nameColIdx + 1, lastRow - 1, 1).getValues();
+          for (let i = 0; i < existingNames.length; i++) {
+            const cellName = (existingNames[i][0] || "").toString().trim().toLowerCase();
+            if (cellName && cellName === newName) {
+              const targetRow = i + 2; // হেডার রো ধরে অফসেট
+              sheet.getRange(targetRow, 1, 1, row.length).setValues([row]);
+              return jsonOut({ status: "ok", updated: true });
+            }
+          }
+        }
+      }
+    }
+
     sheet.appendRow(row);
-    return jsonOut({ status: "ok" });
+    return jsonOut({ status: "ok", updated: false });
   } catch (err) {
     return jsonOut({ status: "error", message: err.toString() });
   }

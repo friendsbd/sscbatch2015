@@ -22,7 +22,15 @@ const CONFIG = {
   EVENTS_SHEET_ID: "1BxwiMfOgb4UwEwr8-T41C8OL-os54ex6UsCBSGtYolw",
   EVENTS_SHEET_GID: "1742796814",
 
-  // ---------- 3) GITHUB IMAGE BASE ----------
+  // ---------- 3) গ্যালারি GOOGLE SHEET (বন্ধুরা নিজেরাই ছবি যোগ করতে পারবে) ----------
+  // wall.html-এর মতোই — gallery.html-এ একটা ফর্ম থাকবে, বন্ধুরা Google Drive/অন্য
+  // কোনো ছবির লিংক পেস্ট করে সাবমিট করলে Apps Script "Gallery" নামের একটা ট্যাব
+  // নিজে থেকেই বানিয়ে সেখানে row যোগ করবে। প্রথম সাবমিশনের পর Sheet-এ গিয়ে
+  // "Gallery" ট্যাবে ক্লিক করে URL-এর #gid=... নাম্বারটা নিচে বসাও (WALL_SHEET_GID-এর মতোই)।
+  GALLERY_SHEET_ID: "1BxwiMfOgb4UwEwr8-T41C8OL-os54ex6UsCBSGtYolw",
+  GALLERY_SHEET_GID: "598944864", // প্রথম সাবমিশনের পর আসল GID বসাও
+
+  // ---------- 3.1) GITHUB IMAGE BASE ----------
   // তোমার GitHub রিপোর সব ছবি যে ফোল্ডারে রাখবে তার raw base URL।
   // যেমন: https://raw.githubusercontent.com/username/reponame/main/images/
   // এরপর Sheet এর "Photo" কলামে শুধু ফাইলের নাম দিলেই চলবে (e.g. rafi.jpg)
@@ -100,6 +108,7 @@ const NOTICES_CSV_URL   = sheetCsvUrl(CONFIG.NOTICES_SHEET_ID, CONFIG.NOTICES_SH
 const FUND_CSV_URL      = sheetCsvUrl(CONFIG.FUND_SHEET_ID, CONFIG.FUND_SHEET_GID);
 const WALL_CSV_URL      = sheetCsvUrl(CONFIG.WALL_SHEET_ID, CONFIG.WALL_SHEET_GID);
 const POLL_CSV_URL      = sheetCsvUrl(CONFIG.POLL_SHEET_ID, CONFIG.POLL_SHEET_GID);
+const GALLERY_CSV_URL   = sheetCsvUrl(CONFIG.GALLERY_SHEET_ID, CONFIG.GALLERY_SHEET_GID);
 
 /* ---------- Helper: ফর্ম/পোল ডেটা Apps Script দিয়ে Google Sheet-এ পাঠানো ---------- */
 // sheetName = Apps Script-এর মধ্যে কোন ট্যাবে row যোগ হবে ("Friends", "PollVotes" ইত্যাদি)
@@ -128,4 +137,22 @@ function resolveImage(value, fallbackSeed){
   value = value.trim();
   if (value.startsWith("http://") || value.startsWith("https://")) return value;
   return CONFIG.GITHUB_IMAGE_BASE.replace(/\/$/, "") + "/" + value.replace(/^\//, "");
+}
+
+/* ---------- Helper: Google Drive শেয়ার লিংক -> সরাসরি হটলিংক-যোগ্য URL ----------
+   বন্ধুরা Drive-এ ছবি আপলোড করে "Anyone with the link -> Viewer" করে যে শেয়ার
+   লিংক পাবে (যেমন https://drive.google.com/file/d/FILE_ID/view?usp=sharing),
+   সেটা সরাসরি <img src> এ বসালে কাজ করে না — এই ফাংশন FILE_ID বের করে
+   drive.google.com/thumbnail ফরম্যাটে বদলে দেয়, যেটা হটলিংকে রিলায়েবল। */
+function resolveImageLink(value){
+  if (!value) return "";
+  value = value.trim();
+  const driveMatch =
+    value.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/) ||
+    value.match(/[?&]id=([a-zA-Z0-9_-]+)/) ||
+    value.match(/drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/);
+  if (driveMatch && value.includes("drive.google.com")) {
+    return `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w1200`;
+  }
+  return value; // ইতিমধ্যে সরাসরি ইমেজ লিংক (imgbb, GitHub raw ইত্যাদি)
 }

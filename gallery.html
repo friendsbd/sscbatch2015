@@ -42,11 +42,27 @@
 
 <section class="pt-4">
   <div class="container">
-    <div class="d-flex justify-content-end mb-4">
-      <div class="id-search-bar">
-        <select id="galleryFilter" class="form-select-plaintext">
-          <option value="">সব ছবি</option>
-        </select>
+    <div class="row g-4 mb-4">
+      <div class="col-lg-5">
+        <form id="galleryUploadForm" class="wall-composer">
+          <div class="mb-2 fw-semibold">তোমার ছবি যোগ করো</div>
+          <input type="text" id="galleryUploadName" name="name" class="form-control mb-2" placeholder="তোমার নাম" required>
+          <input type="url" id="galleryUploadUrl" name="photourl" class="form-control mb-2" placeholder="ছবির লিংক (Google Drive শেয়ার লিংক / imgbb / অন্য কোনো ইমেজ লিংক)" required>
+          <input type="text" id="galleryUploadCaption" name="caption" class="form-control mb-2" placeholder="ক্যাপশন (ঐচ্ছিক)">
+          <input type="text" id="galleryUploadTag" name="tag" class="form-control mb-2" placeholder="ট্যাগ (যেমন: Picnic, Farewell, Reunion — ঐচ্ছিক)">
+          <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2">
+            <span class="text-secondary small">Drive-এ ছবি "Anyone with the link" শেয়ার করে লিংকটা এখানে পেস্ট করো।</span>
+            <button type="submit" id="galleryUploadBtn" class="btn-ink"><i class="bi bi-cloud-upload me-1"></i> ছবি যোগ করো</button>
+          </div>
+          <div class="fun-pick-result mt-3" id="galleryUploadStatus" style="display:none;"></div>
+        </form>
+      </div>
+      <div class="col-lg-7 d-flex align-items-end justify-content-lg-end">
+        <div class="id-search-bar">
+          <select id="galleryFilter" class="form-select-plaintext">
+            <option value="">সব ছবি</option>
+          </select>
+        </div>
       </div>
     </div>
     <div class="masonry" id="galleryGrid">
