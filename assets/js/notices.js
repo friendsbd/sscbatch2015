@@ -1,7 +1,15 @@
 /* =========================================================
    NOTICE BOARD টুল
-   Notices Google Sheet কলাম: Title | Message | Date | Pinned (yes/no)
+   Notices Google Sheet কলাম: Title | Message | Date | Pinned (yes/no) | Status
+
+   Status কলাম = দেখানোর গেট। যে row-তে Status কলামে "1" বসাবে (ম্যানুয়ালি),
+   শুধু সেই নোটিশটাই সাইটে দেখাবে — বাকিগুলো Sheet-এ থাকলেও লুকানো থাকবে।
    ========================================================= */
+
+function isNoticeApproved(v){
+  const s = (v || "").toString().trim().toLowerCase();
+  return s === "1" || s === "yes" || s === "true" || s === "approved";
+}
 
 function noticeItem(n){
   const pinned = (n.pinned || "").toLowerCase() === "yes" || (n.pinned || "").toLowerCase() === "y";
@@ -26,7 +34,7 @@ async function initNotices(){
   if (!wrap) return;
   try{
     const rows = await fetchSheet(NOTICES_CSV_URL);
-    const notices = rows.filter(r => r.title || r.message);
+    const notices = rows.filter(r => (r.title || r.message) && isNoticeApproved(r.status));
     if (!notices.length){
       wrap.innerHTML = `<div class="state-msg">এখনো কোনো নোটিশ যোগ করা হয়নি।</div>`;
       return;
