@@ -41,7 +41,8 @@
   </div>
 </header>
 
-<section class="pt-4">
+<div id="toolNavSentinel"></div>
+<div class="tool-nav-wrap" id="toolNavWrap">
   <div class="container">
     <div class="tool-nav-pill">
       <a href="#notices"><i class="bi bi-megaphone me-1"></i> নোটিশ বোর্ড</a>
@@ -54,7 +55,7 @@
       <a href="#community"><i class="bi bi-people me-1"></i> কমিউনিটি</a>
     </div>
   </div>
-</section>
+</div>
 
 <!-- NOTICE BOARD -->
 <section id="notices">
@@ -693,6 +694,30 @@
       <span><span class="cb-title">${title}</span><span class="cb-sub">${sub}</span></span>
     </a>`;
   }
+  // Sticky tool-nav: match sticky offset to the real navbar height, and
+  // flag when the bar is actually stuck (for the shadow/border) — works
+  // the same way on mobile and desktop.
+  (function initStickyToolNav(){
+    const navEl = document.querySelector(".reg-nav");
+    const sentinel = document.getElementById("toolNavSentinel");
+    const wrap = document.getElementById("toolNavWrap");
+    if (!navEl || !sentinel || !wrap) return;
+
+    const setNavHeight = () => {
+      document.documentElement.style.setProperty("--navH", navEl.offsetHeight + "px");
+    };
+    setNavHeight();
+    window.addEventListener("resize", setNavHeight);
+    if (window.ResizeObserver) new ResizeObserver(setNavHeight).observe(navEl);
+
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(
+        ([entry]) => wrap.classList.toggle("is-stuck", !entry.isIntersecting),
+        { threshold: 0 }
+      ).observe(sentinel);
+    }
+  })();
+
   document.addEventListener("DOMContentLoaded", () => {
     const grid = document.getElementById("communityGrid");
     const btns = [

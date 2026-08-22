@@ -481,11 +481,39 @@ footer a{ color: var(--brass-2); }
    Bill splitter, Community links, Birthday banner
    ========================================================= */
 
-.tool-nav-pill{
-  display:flex; flex-wrap:wrap; gap:.6rem;
+.tool-nav-wrap{
+  position: sticky;
+  top: var(--navH, 62px);
+  z-index: 900;
+  background: var(--paper);
+  padding: 1rem 0 .85rem;
   margin-bottom: 2.5rem;
+  border-bottom: 1px solid transparent;
+  transition: box-shadow .2s ease, border-color .2s ease;
 }
+.tool-nav-wrap.is-stuck{
+  border-bottom-color: var(--line);
+  box-shadow: 0 8px 16px -12px rgba(22,34,61,.35);
+}
+
+.tool-nav-pill{
+  display:flex; flex-wrap: nowrap; gap:.6rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--brass) transparent;
+  padding-bottom: .4rem;
+  margin-bottom: -.4rem;
+}
+.tool-nav-pill::-webkit-scrollbar{ height: 6px; }
+.tool-nav-pill::-webkit-scrollbar-track{ background: transparent; }
+.tool-nav-pill::-webkit-scrollbar-thumb{ background: var(--line); border-radius: 999px; }
+.tool-nav-pill::-webkit-scrollbar-thumb:hover{ background: var(--brass); }
+
 .tool-nav-pill a{
+  flex: 0 0 auto;
+  white-space: nowrap;
   font-family: var(--font-mono);
   font-size: .76rem;
   letter-spacing: .05em;
