@@ -26,6 +26,12 @@
 
 html{ scroll-behavior: smooth; }
 
+/* Anchor targets (tool-nav-pill links) must land below BOTH sticky bars
+   (top navbar + sticky tool nav), not underneath them. */
+section[id]{
+  scroll-margin-top: calc(var(--navH, 62px) + var(--toolNavH, 64px) + 16px);
+}
+
 body{
   background-color: var(--paper);
   background-image:
@@ -34,6 +40,7 @@ body{
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.6;
+  overflow-anchor: none; /* stop the browser auto-scrolling when async content (birthday banner, notice board, etc.) changes height above the fold */
 }
 
 @media (prefers-reduced-motion: reduce){

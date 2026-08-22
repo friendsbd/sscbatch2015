@@ -6,10 +6,16 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.querySelectorAll(".reg-nav .nav-link").forEach(a => {
-    a.addEventListener("click", () => {
+    a.addEventListener("click", (e) => {
       const nav = document.querySelector(".navbar-collapse");
       if (nav && nav.classList.contains("show")) {
         bootstrap.Collapse.getOrCreateInstance(nav).hide();
+      }
+      // Same page as the one we're already on: the browser won't navigate
+      // (identical URL), so nothing would happen. Scroll to top instead.
+      if (a.getAttribute("href") === path) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
     });
   });
